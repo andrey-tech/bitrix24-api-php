@@ -46,7 +46,7 @@ class Bitrix24API
     public $logger;
 
     /**
-     * Количество запросов в одном пакете запросов (batch)
+     * Количество команд в одном пакете запросов (batch)
      * @var integer
      */
     public $batchSize = 50;
@@ -219,7 +219,7 @@ class Bitrix24API
 
     /**
      * Отправляет пакет запросов в API системы Битрикс24
-     * @param  array  $commands Массив команд в пакете запросов
+     * @param  array  $commands Пакет команд
      * @param  bool $halt Определяет прерывать ли последовательность запросов в случае ошибки (0|1, true|false)
      * @return array
      * @see https://dev.1c-bitrix.ru/rest_help/general/batch.php
@@ -262,7 +262,7 @@ class Bitrix24API
     }
 
     /**
-     * Формирует строку одной команды
+     * Формирует строку одной команды для пакета запросов
      * @param  string $function Имя метода (функции) запроса
      * @param array $params Массив параметров команды
      * @return string
