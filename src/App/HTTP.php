@@ -62,16 +62,16 @@ class HTTP
     public $addBOM = false;
 
     /**
-     * Путь к файлу для хранения cookies
-     * @var string
-     */
-    public $cookieFile = 'protected/temp/cookies.txt';
-
-    /**
      * Флаг использования cookie в запросах
      * @var boolean
      */
     public $useCookies = false;
+
+    /**
+     * Путь к файлу для хранения cookies
+     * @var string
+     */
+    public $cookieFile = 'temp/cookies.txt';
 
     /**
      * Флаг включения проверки SSL-сертификата сервера
