@@ -2,8 +2,8 @@
 
 ![Bitrix24 logo](./assets/bitrix24-logo.png)
 
-Обертка на PHP7+ для работы с REST API [Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма входящих вебхуков, 
-троттлингом запросов к серверу и логированием.
+Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
+троттлингом запросов к API и логированием в файл.
 
 **Документация находится в процессе разработки.**
 
@@ -12,13 +12,14 @@
 <!-- MarkdownTOC levels="1,2,3,4,5,6" autoanchor="true" autolink="true" -->
 
 - [Требования](#%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
-- [Класс `Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api)
+- [Класс `\App\Bitrix24\Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
     - [Методы работы со сделками](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
-    - [Обработка ошибок](#%D0%9E%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-%D0%BE%D1%88%D0%B8%D0%B1%D0%BE%D0%BA)
-- [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
+- [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
+    - [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
+    - [Класс `\App\DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger)
 - [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B)
     - [Работа со сделками](#%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
 - [Автор](#%D0%90%D0%B2%D1%82%D0%BE%D1%80)
@@ -32,16 +33,17 @@
 - PHP >= 7.0.
 - Произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api"></a>
-## Класс `Bitrix24API`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api"></a>
+## Класс `\App\Bitrix24\Bitrix24API`
 
-Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.
+Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.  
+При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.
 
 <a id="%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 ### Базовые методы класса
 
 - `__construct(string $webhookURL)` Конструктор класса.
-    + `$webhookURL` - URL входящего вебхука Битрикс24.
+    + `$webhookURL` - URL входящего вебхука.
 - `request(string $function, array $params = []) :?array` Отправляет запрос в API.
     + `$function` - имя метода (функции) запроса;
     + `$params` - параметры запроса. 
@@ -70,7 +72,7 @@
 Свойство                | По умолчанию       | Описание
 ----------------------- | ------------------ | --------
 `$batchSize`            | 50                 | Устанавливает количество команд в одном пакете запросов (batch)
-`$logger`               | null               | Хранит объект класса, выполняющего логирование запросов и ответов API. Например, `\App\DebugLogger`
+`$logger`               | null               | Хранит объект класса `\App\DebugLogger`, выполняющего логирование запросов и ответов к API в файл.
 `$http`                 | `object \App\HTTP` | Хранит объект класса `\App\HTTP`, отправляющего запросы к API
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124"></a>
@@ -110,7 +112,7 @@
     - `$deals` - массив наборов полей сделок со связанными товарными позициями `PRODUCTS`;
     - `$params` - набор параметров сделки.
 - `deleteDeals(array $dealIds = []) :array` Пакетно удаляет сделки и возвращает массив ID сделок.
-    - `$dealIds` - набор ID сделок.
+    - `$dealIds` - массив ID сделок.
 - `setDealFile($dealId, $userFieldId, string $fileName, string $fileContent, bool $isBase64FileData = true) :int` Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить) и возвращает ID сделки.
     - `$dealId` - ID cделки;
     - `$userFieldId` ID НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX');
@@ -135,20 +137,19 @@
 - `getDealProductRowFields() :array` Возвращает описание полей товарных позиций.
 - `getDealFields() :array` Возвращает описание полей cделки, в том числе пользовательских.
 
-<a id="%D0%9E%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-%D0%BE%D1%88%D0%B8%D0%B1%D0%BE%D0%BA"></a>
-### Обработка ошибок
-
-При возникновении ошибок при запросах к API выбрасывается исключение с объектом типа `\App\Bitrix24\Bitrix24APIException`.
+<a id="%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B"></a>
+## Вспомогательные классы
 
 <a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp"></a>
-## Класс `\App\HTTP`
+### Класс `\App\HTTP`
 
-Вспомогательный класс `\App\HTTP` обеспечивает:
+Класс `\App\HTTP` обеспечивает:
 
-- формирование запросов к API Битрикс 24;
-- троттлинг запросов к API на требуемом уровне [не более 2-х запросов в секунду](https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php);
+- формирование POST запросов к API Битрикс 24 по протоколу HTTPS;
+- троттлинг запросов к API на требуемом уровне - [не более 2-х запросов в секунду](https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php);
 - вывод отладочной информации о запросах к API в STDOUT.
 
+При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`.  
 Дополнительные параметры доступны через публичные свойства класса `\App\HTTP`.
 
 Свойство                | По умолчанию            | Описание
@@ -164,6 +165,63 @@
 `$curlTimeout`          | 60                      | Устанавливает таймаут установения соединения, секунды
 `$successStatusCodes`   | [ 200 ]                 | Коды статуса НТТР, которые считаются успешными
 
+```php
+use \App\Bitrix24\Bitrix24API;
+use \App\HTTP;
+
+$webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+$bx24 = new Bitrix24API($webhookURL);
+
+// Устанавливаем максимальный уровень вывода отладочных сообщений в STDOUT
+$bx24->http->debugLevel = HTTP::DEBUG_URL |  HTTP::DEBUG_HEADERS | HTTP::DEBUG_CONTENT;
+
+// Устанавливаем троттлинг запросов на уровне не более 1 запроса в 2 секунды
+$bx24->http->throttle = 0.5;
+
+// Устанавливаем таймаут соединения в 30 секунд
+$bx24->http->curlTimeout = 30;
+```
+
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger"></a>
+### Класс `\App\DebugLogger`
+
+Класс `\App\DebugLogger` обеспечивает логирование запросов и ответов к API в файл.  
+При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`. 
+
+Список методов класса:
+
+- `static instance(string $logFileName = 'debug.log') :\App\DebugLogger` Возвращает объект класса.
+    + `$logFileName` - имя лог файла.
+- `save(mixed $info, $object = null) :void` Сохраняет подлежащую логированию информацию в файл.
+    + $info - строка, массив или объект для логирования;
+    + $object - ссылка на объект класса в котором выполняется логирование.
+
+Дополнительные параметры логирования доступы через публичные свойства класса `\App\DebugLogger`.
+
+Свойство                | По умолчанию  | Описание
+----------------------- | ------------- | --------
+`$isActive`             | false         | Включает или выключает логирование
+`$logFileDir`           | `temp/`       | Устанавливает каталог в котором сохраняются лог файлы
+
+
+
+```php
+use \App\Bitrix24\Bitrix24API;
+use \App\DebugLogger;
+
+$webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+$bx24 = new Bitrix24API($webhookURL);
+
+$logFileName = 'debug_bitrix24api.log'
+$bx24->logger = DebugLogger::instance($logFileName);
+
+// Устанавливаем каталог для сохранения лог файлов
+$bx24->logger->logFileDir = 'logs/';
+
+// Включаем логирование
+$bx24->logger->isActive = true;
+
+```
 
 <a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B"></a>
 ## Примеры
