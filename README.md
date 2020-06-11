@@ -12,16 +12,15 @@
 <!-- MarkdownTOC levels="1,2,3,4,5,6" autoanchor="true" autolink="true" -->
 
 - [Требования](#%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
-- [Класс `\App\Bitrix24\Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api)
+- [Класс `Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
     - [Методы работы со сделками](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
+- [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
 - [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
     - [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
     - [Класс `\App\DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger)
-- [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B)
-    - [Работа со сделками](#%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
 - [Автор](#%D0%90%D0%B2%D1%82%D0%BE%D1%80)
 - [Лицензия](#%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)
 
@@ -33,11 +32,23 @@
 - PHP >= 7.0.
 - Произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api"></a>
-## Класс `\App\Bitrix24\Bitrix24API`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api"></a>
+## Класс `Bitrix24API`
 
 Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.  
-При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.
+При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.  
+В настоящее время класс содержит методы для работы со следующими сущностями Битрикс24:
+
+- Контакты
+- Компании
+- [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
+- Каталог
+- Товары
+- Разделы товаров
+- Задачи
+- [Дела](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
+- Пользователи
+- Диск
 
 <a id="%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 ### Базовые методы класса
@@ -64,6 +75,7 @@
     + `$items` - массив полей запросов.
 - `getLastResponse() :?array`  Возвращает последний ответ от API.
 
+
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B"></a>
 ### Дополнительные параметры
 
@@ -80,6 +92,8 @@
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8"></a>
 ### Методы работы со сделками
+
+Методы для работы со сделками находятся в трейте `\App\Bitrix24\Deal`.
 
 - `getDeal($dealId, array $with = []) :array` Возвращает параметры сделки по ее ID.
     + `$dealId` - ID сделки;
@@ -136,6 +150,140 @@
     - `$dealId` - ID cделки.
 - `getDealProductRowFields() :array` Возвращает описание полей товарных позиций.
 - `getDealFields() :array` Возвращает описание полей cделки, в том числе пользовательских.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Добавляем новую сделку
+    $dealId = $bx24->addDeal([
+        'TITLE'      => 'Новая сделка №1',
+        'COMPANY_ID' => 6,
+        'CONTACT_ID' => 312
+    ]);
+    print_r($dealId);
+
+    // Устанавливаем набор связанных контактов
+    $bx24->setDealContactItems($dealId, [
+        [ 'CONTACT_ID' => 313 ],
+        [ 'CONTACT_ID' => 454 ]
+    ]);
+
+    // Устанавливаем набор связанных товарных позиций
+    $bx24->setDealProductRows($dealId, [
+        [ 'PRODUCT_ID' => 1689, 'PRICE' => 1500.00, 'QUANTITY': 2 ],
+        [ 'PRODUCT_ID' => 1860, 'PRICE' => 500.00, 'QUANTITY': 15 ]
+    ]);
+
+    // Обновляем существующую сделку
+    $bx24->updateDeal($dealId, [
+        'TITLE' => 'Новая сделка №12'
+    ]);
+
+    // Загружаем сделку по ID вместе со связанными товарами и контактами одним запросом
+    $deal = $bx24->getDeal($dealId, [ 'PRODUCTS', 'CONTACTS' ]);
+    print_r($deal);
+
+    // Удаляем существующую сделку
+    $bx24->deleteDeal($dealId);
+
+    // Загружаем все сделки используя быстрый метод при работе с большими объемами данных
+    $generator = $bx24->fetchDealList();
+    foreach ($generator as $deals) {
+        foreach($deals as $deal) {
+            print_r($deal);
+        }
+    }
+
+    // Пакетно добавляем сделки вместе с товарными позициями
+    $dealIds = $bx24->addDeals([
+        [
+            'TITLE' => 'Новая сделка №1121',
+            'COMPANY_ID' => 6,
+            'CONTACT_ID' => 312,
+            'PRODUCTS' => [
+                [ "PRODUCT_ID" => 27, "PRICE" => 100.00, "QUANTITY" => 11 ],
+            ]
+
+        ],
+        [
+            'TITLE' => 'Новая сделка №1122',
+            'COMPANY_ID' => 6,
+            'PRODUCTS' => [
+                [ "PRODUCT_ID" => 28, "PRICE" => 200.00, "QUANTITY" => 22 ],
+                [ "PRODUCT_ID" => 27, "PRICE" => 200.00, "QUANTITY" => 11 ],
+            ]
+        ]
+    ]);
+    print_r($ids);
+
+    // Пакетно удаляем сделки
+     $bx24->deleteDeals($dealIds);
+
+} catch (\App\Bitrix24\Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8"></a>
+# Методы для работы с делами
+
+Методы для работы с делами (активностями) находятся в трейте `\App\Bitrix24\Activity`.
+
+- `getActivity($activityId) :?array` Возвращает дело по ID.
+    + `$activityId` - ID дела.
+- `addActivity(array $fields = []) :int` Создает новое дело.
+    + `$fields` - набор полей дела.
+- `addActivities(array $activities = []) :array` Пакетно создает дела.
+    + `$activities` - массив наборов полей дел.
+- `getActivityFields() :array` Возвращает описание полей дела.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Добавляем новое дело типа письмо
+    $activityId = $bx24->addActivity([
+        'SUBJECT'          => 'Заголовок письма', // Email subject
+        'DESCRIPTION'      => 'Описание активности', // Email body
+        'DESCRIPTION_TYPE' => 2, // Тип тела email: 1- Plain text, 2 - bbCode, 3 - HTML (crm.enum.contenttype)
+        'COMPLETED'        => 'N', // Флаг немедленной отправки: Y|N
+        'DIRECTION'        => 2, // Направление: 1 - входящее, 2 - исходящее (crm.enum.activitydirection)
+        'OWNER_TYPE_ID'    => 2, // Тип сущности: 2 - Сделка, 3 - контакт, 4 - Компания,... (crm.enum.ownertype)
+        'OWNER_ID'         => 39293, // ID сущности (сделки)
+        'TYPE_ID'          => 4, // Тип активности: 4 - Письмо (crm.enum.activitytype)
+        'RESPONSIBLE_ID'   => 4852, // ID ответственного пользователя
+        'START_TIME'       => '2005-08-09T18:31:42+03:30', // Время начала
+        'END_TIME'         => '2005-09-10T18:31:42+03:30', // Время окончания
+        'COMMUNICATIONS' => [ // Параметры получателей письма
+            [
+                'VALUE'          => 'test@example.com', // Email компании
+                'ENTITY_ID'      => 58938, // ID компании
+                'ENTITY_TYPE_ID' => 4 // Тип сущности: 4 - Компания ('crm.enum.ownertype');
+            ]
+        ],
+        'SETTINGS' => [
+            'MESSAGE_FROM' => 'from@example.com'
+        ]
+    ]);
+    print_r($activityId);
+
+    // Получаем дело по ID
+    $activity = $bx24->getActivity($activityId);
+    print_r($activity);
+
+} catch (\App\Bitrix24\Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
 
 <a id="%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B"></a>
 ## Вспомогательные классы
@@ -223,86 +371,7 @@ $bx24->logger->isActive = true;
 
 ```
 
-<a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B"></a>
-## Примеры
 
-<a id="%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8"></a>
-### Работа со сделками
-
-```php
-use \App\Bitrix24\Bitrix24API;
-
-try {
-
-    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
-    $bx24 = new Bitrix24API($webhookURL);
-
-    // Добавляем новую сделку
-    $dealId = $bx24->addDeal([
-        'TITLE'      => 'Новая сделка №1',
-        'COMPANY_ID' => 6,
-        'CONTACT_ID' => 312
-    ]);
-    print_r($dealId);
-
-    // Устанавливаем набор связанных контактов
-    $bx24->setDealContactItems($dealId, [
-        [ 'CONTACT_ID' => 313 ],
-        [ 'CONTACT_ID' => 454 ]
-    ]);
-
-    // Устанавливаем набор связанных товарных позиций
-    $bx24->setDealProductRows($dealId, [
-        [ 'PRODUCT_ID' => 1689, 'PRICE' => 1500.00, 'QUANTITY': 2 ],
-        [ 'PRODUCT_ID' => 1860, 'PRICE' => 500.00, 'QUANTITY': 15 ]
-    ]);
-
-    // Обновляем существующую сделку
-    $bx24->updateDeal($dealId, [
-        'TITLE' => 'Новая сделка №12'
-    ]);
-
-    // Загружаем сделку по ID вместе со связанными товарами и контактами одним запросом
-    $deal = $bx24->getDeal($dealId, [ 'PRODUCTS', 'CONTACTS' ]);
-    print_r($deal);
-
-    // Удаляем существующую сделку
-    $bx24->deleteDeal($dealId);
-
-    // Загружаем все сделки используя быстрый метод при работе с большими объемами данных
-    $generator = $bx24->fetchDealList();
-    foreach ($generator as $deals) {
-        foreach($deals as $deal) {
-            print_r($deal);
-        }
-    }
-
-    // Пакетно добавляем сделки вместе с товарными позициями
-    $ids = $bitrix->addDeals([
-        [
-            'TITLE' => 'Новая сделка №1121',
-            'COMPANY_ID' => 6,
-            'CONTACT_ID' => 312,
-            'PRODUCTS' => [
-                [ "PRODUCT_ID" => 27, "PRICE" => 100.00, "QUANTITY" => 11 ],
-            ]
-
-        ],
-        [
-            'TITLE' => 'Новая сделка №1122',
-            'COMPANY_ID' => 6,
-            'PRODUCTS' => [
-                [ "PRODUCT_ID" => 28, "PRICE" => 200.00, "QUANTITY" => 22 ],
-                [ "PRODUCT_ID" => 27, "PRICE" => 200.00, "QUANTITY" => 11 ],
-            ]
-        ]
-    ]);
-    print_r($ids);
-
-} catch (\App\Bitrix24\Bitrix24APIException $e) {
-    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-}
-```
 
 <a id="%D0%90%D0%B2%D1%82%D0%BE%D1%80"></a>
 ## Автор

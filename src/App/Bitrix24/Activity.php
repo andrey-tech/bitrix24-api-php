@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Трейт Actibity. Методы для работы с делами в системе Bitrix24.
+ * Трейт Actibity. Методы для работы с делами (активностями) в системе Bitrix24.
  *
  * @author    andrey-tech
  * @copyright 2019-2020 andrey-tech
