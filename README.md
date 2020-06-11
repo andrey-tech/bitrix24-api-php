@@ -5,8 +5,6 @@
 Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
 троттлингом запросов к API и логированием в файл.
 
-**Документация находится в процессе разработки.**
-
 # Содержание
 
 <!-- MarkdownTOC levels="1,2,3,4,5,6" autoanchor="true" autolink="true" -->
@@ -45,7 +43,7 @@
 
 Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.  
 При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.  
-В настоящее время класс содержит методы для работы со следующими сущностями Битрикс24:
+В настоящее в классе реализованы методы для работы со следующими сущностями Битрикс24:
 
 - [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
 - [Контакты](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8)
@@ -130,8 +128,8 @@
 + `$dealId` - ID сделки;
 + `$dealIds` - массив ID сделок;
 + `$with` - имена связанных сущностей, возвращаемых вместе со сделкой;
-    * `CONTACTS` - контакты;
-    * `PRODUCTS` - товарные позиции;
+    * `CONTACTS` - контакты (возвращаются в виде массива в одноименном поле);
+    * `PRODUCTS` - товарные позиции (возвращаются в виде массива в одноименном поле);
 - `$fields` - набор полей сделки;
 - `$params` - набор параметров сделки;
 - `$filter` - параметры фильтрации;
@@ -211,10 +209,10 @@ try {
             ]
         ]
     ]);
-    print_r($ids);
+    print_r($dealIds);
 
     // Пакетно удаляем сделки
-     $bx24->deleteDeals($dealIds);
+    $bx24->deleteDeals($dealIds);
 
 } catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
@@ -226,13 +224,188 @@ try {
 
 Методы для работы с контактами находятся в трейте `\App\Bitrix24\Contact`:
 
+- `getContact($contactId, array $with = []) :array` Возвращает контакт по его ID.
+- `addContact(array $fields = [], array $params = []) :int` Добавляет контакт и возвращает его ID.
+- `updateContact($contactId, array $fields = [], array $params = []) :int` Обновляет контакт и возвращает его ID.
+- `deleteContact($contactId) :int` Удаляет контакт и возвращает его ID.
+- `getContactList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+    Загружает все контакты с возможностью фильтрации, сортировки и выборки полей.
+- `fetchContactList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+    Загружает все контакты с возможностью фильтрации, сортировки и выборки полей.  
+    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+- `addContacts(array $contacts = [], array $params = []) :array` Пакетно добавляет контакты.
+- `updateContacts(array $contacts = [], array $params = []) :array` Пакетно обновляет контакты.
+- `deleteContacts(array $contactIds = []) :array` Пакетно удаляет контакты.
+- `getContactCompanyItems($contactId) :array` Возвращает компании, связанные с контактом по ID.
+- `setContactCompanyItems($contactId, array $companies) :array` Устанавливает компании, связанные с контактом по ID.
+- `getContactFields() :array` Возвращает описание полей контакта.
+
+Параметры методов:
+
++ `$contaxctId` - ID контакта;
++ `$contactIds` - массив ID сделок;
++ `$with` - имена связанных сущностей, возвращаемых вместе с контактом:
+    * `COMPANIES` - компании (возвращаются в виде массива в одноименном поле);
+- `$fields` - набор полей сделки;
+- `$params` - набор параметров сделки;
+- `$filter` - параметры фильтрации;
+- `$order` - параметры сортировки;
+- `$select` - параметры выборки полей;
+- `$contacts` - массив параметров контактов;
+- `$companies` - массив параметров компаний.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Добавляем новый контакт
+    $contactId = $bx24->addContact([
+        'NAME'        => 'Иван',
+        'COMPANY_ID'  => 332,
+        'SECOND_NAME' => 'Васильевич',
+        'LAST_NAME'   => 'Петров'
+    ]);
+    print_r($contactId);
+
+    // Устанавливаем набор связанных компаний
+    $bx24->setContactCompanyItems($contactId, [
+        [ 'COMPANY_ID' => 8483 ],
+        [ 'CONPANY_ID' => 4094 ]
+    ]);
+
+    // Обновляем существующий контакт
+    $bx24->updateContact($contactId, [
+        'NAME' => 'Фёдор'
+    ]);
+
+    // Загружаем контакт по ID вместе со связанными компаниями
+    $contact = $bx24->getContact($contactId, [ 'COMPANIES' ]);
+    print_r($contact);
+
+    // Удаляем существующий контакт
+    $bx24->deleteContact($contactId);
+
+    // Загружаем все контакты используя быстрый метод при работе с большими объемами данных
+    $generator = $bx24->fetchContactList();
+    foreach ($generator as $contacts) {
+        foreach($contacts as $contact) {
+            print_r($contact);
+        }
+    }
+
+    // Пакетно добавляем контакты
+    $contactIds = $bx24->addContacts([
+        [
+            'NAME'        => 'Владимир',
+            'COMPANY_ID'  => 3322,
+            'SECOND_NAME' => 'Вадимович',
+            'LAST_NAME'   => 'Владимиров'
+        ],
+        [
+            'NAME'        => 'Андрей',
+            'COMPANY_ID'  => 1332,
+            'SECOND_NAME' => 'Васильевич',
+            'LAST_NAME'   => 'Иванов'
+        ]
+    ]);
+    print_r($contactIds);
+
+    // Пакетно удаляем контакты
+    $bx24->deleteContacts($contactIds);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8"></a>
 ### Методы для работы с компаниями
 
 Методы для работы с компаниями находятся в трейте `\App\Bitrix24\Company`:
 
+- `getCompany($companyId, array $with = [])` Возвращает компанию по ID.
+- `addCompany(array $fields = [], array $params = []) :int` Добавляет компанию и возвращает ее ID.
+- `updateCompany($companyId, array $fields = [], array $params = []) :int` Обновляет компанию и возвращает ее ID.
+- `deleteCompany($companyId) :int` Удаляет компанию и возвращает ее ID.
+- `getCompanyList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+    Загружает все компании с возможностью фильтрации, сортировки и выборки полей.
+- `fetchCompanyList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+    Загружает все компании с возможностью фильтрации, сортировки и выборки полей.  
+    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+- `addCompanies(array $companies = [], array $params = []) :array` Пакетно добавляет компании.
+- `updateCompanies(array $companies = [], array $params = []) :array` Пакетно обновляет компании.
+- `deleteCompanies(array $companyIds = []) :array` Пакетно удаляет компании.
+- `getCompanyContactItems($companyId) :array` Возвращает контакты, связанные с компанией.
+- `setCompanyContactItems($companyId, array $contacts) :array` Устанавливает контакты, связанные с компанией.
 
+Параметры методов:
+
+- `$companyId` - ID компании;
+- `$companyIds` - массив ID компаний;
++ `$filter` - параметры фильтрации;
++ `$order` - параметры сортировки;
++ `$select` - параметры выборки полей;
+- `$contacts` - массив параметров контактов;
+- `$companies` - массив параметров компаний.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Добавляем новую компанию
+    $companyId = $bx24->addCompany([
+        'TITLE' => 'OOO Рога и Копыта'
+    ]);
+    print_r($companyId);
+
+    // Устанавливаем набор связанных контактов
+    $bx24->setCompanyContactItems($companyId, [
+        [ 'CONTACT_ID' => 4838 ],
+        [ 'CONTACT_ID' => 8583 ]
+    ]);
+
+    // Обновляем существующую компанию
+    $bx24->updateCompany($companyId, [
+        'TITLE' => 'ИП Рога и Копыта'
+    ]);
+
+    // Загружаем компанию по ID вместе со связанными контактами
+    $company = $bx24->getCompany($companyId, [ 'CONTACTS' ]);
+    print_r($company);
+
+    // Удаляем существующую компанию
+    $bx24->deleteCompany($companyId);
+
+    // Загружаем все компании используя быстрый метод при работе с большими объемами данных
+    $generator = $bx24->fetchCompanyList();
+    foreach ($generator as $companies) {
+        foreach($companies as $company) {
+            print_r($company);
+        }
+    }
+
+    // Пакетно добавляем компании
+    $companyIds = $bx24->addCompanies([
+        [ 'TITLE' => 'ПАО Абракадабра' ],
+        [ 'TITLE' => 'ЗАО Моя компания' ]
+    ]);
+    print_r($companyIds);
+
+    // Пакетно удаляем компании
+    $bx24->deleteCompanies($companyIds);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8"></a>
 ### Методы для работы с каталогами

@@ -8,11 +8,12 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.1.0
+ * @version 1.2.1
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлен метод getContactFields()
  * v1.2.0 (09.06.2020) Изменен метод getContact(), добавлен метод fetchContactList()
+ * v1.2.1 (11.06.2020) Исправлен метод deleteContacts()
  *
  */
 declare(strict_types = 1);
@@ -36,7 +37,7 @@ trait Contact
      * @param array $with Список связанных сущностей, возвращаемых вместе с контактом [ 'COMPANIES' ]
      * @return array
      */
-    public function getContact($contactId, $with = [])
+    public function getContact($contactId, array $with = [])
     {
         $with = array_map('strtoupper', $with);
 
@@ -281,12 +282,12 @@ trait Contact
      * @param  array $contactIds Массив Id контактов
      * @return array Массив Id контактов
      */
-    public function deleteContacts(array $contacts = [], array $params = []) :array
+    public function deleteContacts(array $contactIds = []) :array
     {
         // Id удаленных контактов
         $contactResults = [];
 
-        while ($contactsChunk = array_splice($contacts, 0, $this->batchSize)) {
+        while ($contactsChunk = array_splice($contactIds, 0, $this->batchSize)) {
             $commandParams = [];
             foreach ($contactsChunk as $index => $contactId) {
                 $commandParams[ $index ] = [ 'id' => $contactId ];
