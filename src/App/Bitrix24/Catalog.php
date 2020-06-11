@@ -8,9 +8,10 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.0.0
+ * @version 1.1.0
  *
  * v1.0.0 (15.10.2019) Начальная версия
+ * v1.1.0 (11.06.2020) Добавлен метод fetchCatalogList()
  *
  */
 declare(strict_types = 1);
@@ -36,5 +37,25 @@ trait Catalog
         ];
 
         return $this->getList('crm.catalog.list', $params);
+    }
+
+    /**
+     * Возвращает все товарные каталоги используя быстрый метод
+     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param array $filter Параметры фильтрации
+     * @param array $order Параметры сортировки
+     * @param array $select Параметры выборки
+     * @return object \Generator
+     * @see https://dev.1c-bitrix.ru/rest_help/crm/catalog/crm_catalog_list.php
+     */
+    public function fetchCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator
+    {
+        $params = [
+            'order'  => $order,
+            'filter' => $filter,
+            'select' => $select
+        ];
+
+        return $this->fetchList('crm.catalog.list', $params);
     }
 }

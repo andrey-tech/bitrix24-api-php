@@ -8,11 +8,12 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.1.0
+ * @version 1.2.0
  *
  * v1.0.0 (25.10.2019) Начальная версия
  * v1.0.1 (11.11.2019) Добавлены параметры к методам getUsers()
  * v1.1.0 (15.11.2019) Добавлен метод getUserFields()
+ * v1.2.0 (11.06.2020) Исправлен метод getUsers()
  *
  */
 declare(strict_types = 1);
@@ -49,14 +50,14 @@ trait User
      * @param string $order Направление сортировки
      * @param string $sort Поле, по которому сортируются результаты
      * @param bool $adminMode Ключ работы в режиме администратора
-     * @return array
+     * @return \Generator
      */
     public function getUsers(
         array $filter = [],
         string $order = 'ASC',
         string $sort = '',
         bool $adminMode = false
-    ) :array {
+    ) :\Generator {
 
         $params = [
             'FILTER'     => $filter,
@@ -65,7 +66,6 @@ trait User
             'ADMIN_MODE' => $adminMode
         ];
 
-        $result = $this->request('user.get', $params);
-        return $result;
+        return $this->getList('user.get', $params);
     }
 }

@@ -17,7 +17,11 @@
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
     - [Методы работы со сделками](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
-- [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с каталогами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с пользователями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
+    - [Методы работы с задачами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с диском](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
 - [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
     - [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
     - [Класс `\App\DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger)
@@ -42,13 +46,13 @@
 - Контакты
 - Компании
 - [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
-- Каталог
+- [Каталог](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
 - Товары
 - Разделы товаров
-- Задачи
+- [Задачи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
 - [Дела](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
-- Пользователи
-- Диск
+- [Пользователи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
+- [Диск](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
 
 <a id="%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 ### Базовые методы класса
@@ -224,13 +228,138 @@ try {
     // Пакетно удаляем сделки
      $bx24->deleteDeals($dealIds);
 
-} catch (\App\Bitrix24\Bitrix24APIException $e) {
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8"></a>
+### Методы для работы с каталогами
+
+Методы для работы с товарными каталогами находятся в трейте `\App\Bitrix24\Catalog`.
+
+- `getCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator` 
+    Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.
+    + `$filter` - параметры фильтрации;
+    + `$order` - параметры сортировки;
+    + `$select` - параметры выборки полей.
+- `fetchCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator`
+    Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.
+    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+    + `$filter` - параметры фильтрации;
+    + `$order` - параметры сортировки;
+    + `$select` - параметры выборки полей.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Загружаем все товарные каталоги используя быстрый метод при работе с большими объемами данных
+    $generator = $bx24->fetchCatalogList();
+    foreach ($generator as $catalogs) {
+        foreach($catalogs as $catalog) {
+            print_r($catalog);
+        }
+    }
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8"></a>
+### Методы для работы с пользователями
+
+Методы для работы с пользователями находятся в трейте `\App\Bitrix24\User`.
+
+- `getUser($userId) ?:array` Возвращает параметры пользователя по ID.
+    + `$userId` - ID пользователя.
+- `getUsers(array $filter = [], string $order = 'ASC', string $sort = '', bool $adminMode = false) :\Generator`
+    Загружает всех пользователей с возможностью фильтрации, сортировки и выборки полей.
+    + `$filter` - параметры фильтрации;
+    + `$order` - направление сортировки (ASC|DESC);
+    + `$sort` -  поле, по которому сортируются результаты;
+    + `$select` - параметры выборки полей;
+    + `$adminMode` - включает режим администратора для получения данных о любых пользователях.
+- `getUserFields() :array` Возвращает описание полей пользователя.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Получаем параметры пользователя по ID
+    $user = $bx24->getUser(34782);
+    print_r($user);
+
+    // Получаем всех пользователей типа сотрудник с сортировкой по имени
+    $generator = $bx24->getUsers(
+        [ 'USER_TYPE' => 'employee' ],
+        $order = 'ASC',
+        $sort = 'NAME' 
+    );
+    foreach ($generator as $users) {
+        foreach($users as $user) {
+            print_r($user);
+        }
+    }
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8"></a>
+### Методы работы с задачами
+
+Методы для работы с задачами находятся в трейте `\App\Bitrix24\Task`.
+
+- `getTask($taskId, array $select = []) :?array` Возращает параметры задачи по ID.
+    + `$taskId` - ID задачи;
+    + `$select` - параметры выборки полей.
+- `addTask(array $fields = []) :int` Добавляет новую задачу.
+    + `$fields` - набор полей задачи.
+- `addTasks(array $tasks = []) :array` Пакетно добавляет задачи.
+    + `$tasks` - массив наборов полей задачи.
+- `getTaskFields() :array` Возвращает описание полей задачи.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Получаем задачу по ID
+    $task = $bx24->getTask(4325);
+    print_r($task);
+
+    // Создаем новую задачу
+    $taskId = $bx24->addTask([
+        'TITLE'           => 'Новая задача №123', // Название задачи
+        'DESCRIPTION'     => 'Описание задачи', // Описание задачи
+        'RESPONSIBLE_ID'  => 43242, // ID ответственного пользователя
+        'UF_CRM_TASK'     => [ 'D_' . 38492 ], // Привязка задачи к сделке
+        'START_DATE_PLAN' => '09.08.2005', // Плановая дата начала.
+        'END_DATE_PLAN'   => '09.09.2005', // Плановая дата завершения
+        'DEADLINE'        => '2005-09-09T18:31:42+03:30' // Крайний срок
+    ]);
+    print_r($taskId);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8"></a>
-# Методы для работы с делами
+### Методы для работы с делами
 
 Методы для работы с делами (активностями) находятся в трейте `\App\Bitrix24\Activity`.
 
@@ -280,7 +409,61 @@ try {
     $activity = $bx24->getActivity($activityId);
     print_r($activity);
 
-} catch (\App\Bitrix24\Bitrix24APIException $e) {
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC"></a>
+### Методы для работы с диском
+
+Методы для работы с Диском находятся в трейте `\App\Bitrix24\Disk`.
+
+-  `getDiskStorageList(array $filter = []) :\Generator`
+    Загружает список доступных хранилищ c возможностью фильтрации.
+    + `$filter` - параметры фильтрации.
+- `getDiskStorageChildren($storageId, array $filter = []) :array`
+    Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища c возможностью фильтрации.
+    + `$storageId` - ID хранилища.
+    + `$filter` - параметры фильтрации.
+- `uploadfileDiskFolder($folderId, string $fileContent, array $data, bool $isBase64FileData = true) :array`
+    Загружает новый файл в указанную папку на Диск.
+    + `$folderId` - ID папки;
+    + `$fileContent` - RAW данные файла;
+    + `$data` - набор параметров, описывающих файл (обязательное поле NAME - имя нового файла);
+    + `$isBase64FileData` - RAW данные файла закодированны BASE64.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Загружаем список доступных хранилищ
+    $generator = $bitrix->getDiskStorageList();
+    foreach ($generator as $storages) {
+        foreach ($storages as $storage) {
+            print_r($storage);
+        }
+    }
+
+    // Загружаем список файлов и папок, которые находятся непосредственно в корне хранилища
+    $files = $bitrix->getDiskStorageChildren($storageId = 2);
+    foreach ($files as $file) {
+        print_r($file);
+    }
+
+    // Загружаем файл в указанную папку на Диск
+    $bx24->uploadfileDiskFolder(
+        $filderId = 4709,
+        $rawFile = file_get_contents('./schet.pdf'),
+        [ 'NAME' => 'schet.pdf' ],
+        $isBase64FileData = false
+    );
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -370,8 +553,6 @@ $bx24->logger->logFileDir = 'logs/';
 $bx24->logger->isActive = true;
 
 ```
-
-
 
 <a id="%D0%90%D0%B2%D1%82%D0%BE%D1%80"></a>
 ## Автор
