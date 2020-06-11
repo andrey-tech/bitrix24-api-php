@@ -17,7 +17,11 @@
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
     - [Методы работы со сделками](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с контактами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с компаниями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8)
     - [Методы для работы с каталогами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
+    - [Методы для работы с товарами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8)
+    - [Методы работы с разделами товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2)
     - [Методы для работы с пользователями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
     - [Методы работы с задачами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
@@ -43,12 +47,12 @@
 При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.  
 В настоящее время класс содержит методы для работы со следующими сущностями Битрикс24:
 
-- Контакты
-- Компании
 - [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
+- [Контакты](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8)
+- [Компании](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8)
 - [Каталог](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
-- Товары
-- Разделы товаров
+- [Товары](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8)
+- [Разделы товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2)
 - [Задачи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
 - [Дела](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
 - [Пользователи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
@@ -57,28 +61,25 @@
 <a id="%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 ### Базовые методы класса
 
+Базовые методы находятся в классе `\App\Bitrix24\Bitrix24API`:
+
 - `__construct(string $webhookURL)` Конструктор класса.
-    + `$webhookURL` - URL входящего вебхука.
 - `request(string $function, array $params = []) :?array` Отправляет запрос в API.
-    + `$function` - имя метода (функции) запроса;
-    + `$params` - параметры запроса. 
 - `getList(string $function, array $params = []) :\Generator` Загружает все сущности заданного типа.
-    + `$function` - имя метода (функции) запроса;
-    + `$params` - параметры запроса.
 - `fetchList(string $function, array $params = []) :\Generator` Загружает все сущности [быстрым методом](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php).
-    + `$function` - имя метода (функции) запроса;
-    + `$params` - параметры запроса.
 - `batchRequest(array $commands, $halt = true) :array` Отправляет пакет запросов в API. 
-    + `$commands` - пакет команд;
-    + `$halt` - прерывать последовательность запросов в случае ошибки.
 - `buildCommands(string $function, array $items) :array` Создает массив команд для пакетного запроса.
-    + `$function` - имя метода (функции) запроса;
-    + `$items` - массив полей запросов.
 - `buildCommand(string $function, array $params) :string` Возвращает команду для пакетного запроса.
-    + `$function` - имя метода (функции) запроса;
-    + `$items` - массив полей запросов.
 - `getLastResponse() :?array`  Возвращает последний ответ от API.
 
+Параметры методов:
+
++ `$webhookURL` - URL входящего вебхука;
++ `$function` - имя метода (функции) запроса;
++ `$params` - параметры запроса;
++ `$commands` - пакет команд;
++ `$items` - массив полей запросов;
++ `$halt` - прерывать последовательность запросов в случае ошибки.
 
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B"></a>
 ### Дополнительные параметры
@@ -97,63 +98,50 @@
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8"></a>
 ### Методы работы со сделками
 
-Методы для работы со сделками находятся в трейте `\App\Bitrix24\Deal`.
+Методы для работы со сделками находятся в трейте `\App\Bitrix24\Deal`:
 
-- `getDeal($dealId, array $with = []) :array` Возвращает параметры сделки по ее ID.
-    + `$dealId` - ID сделки;
-    + `$with` - имена связанных сущностей, возвращаемых вместе со сделкой.
-        * `CONTACTS` - контакты;
-        * `PRODUCTS` - товарные позиции.
+- `getDeal($dealId, array $with = []) :array` Возвращает сделку по ее ID.
 - `addDeal(array $fields = [], array $params = []) :int` Добавляет сделку и возвращает ее ID.  
-    - `$fields` - набор полей сделки;
-    - `$params` - набор параметров сделки.
 - `updateDeal($dealId, array $fields = [], array $params = []) :int` Обновляет сделку и возвращает ее ID.
-    - `$dealId` - ID сделки;
-    - `$fields` - набор полей сделки;
-    - `$params` - набор параметров сделки.
 - `deleteDeal($dealId) :int`  Удаляет сделку и возвращает ее ID.
-    - `$dealId` - ID сделки.
-- `getDealList(array $filter = [], array $select = [], array $order = []) :\Generator` Загружает все сделки с возможностью фильтрации, сортировки и выборки полей.
+- `getDealList(array $filter = [], array $select = [], array $order = []) :\Generator`  
     Загружает все сделки с возможностью фильтрации, сортировки и выборки полей.
-    - `$filter` - параметры фильтрации;
-    - `$order` - параметры сортировки;
-    - `$select` - параметры выборки полей.
-- `fetchDealList(array $filter = [], array $select = [], array $order = []) :\Generator` Загружает все сделки с возможностью фильтрации, сортировки и выборки полей.
-    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.
-    - `$filter` - параметры фильтрации;
-    - `$order` - параметры сортировки;
-    - `$select` - параметры выборки.
-- `addDeals(array $deals = [], array $params = []) :array` Пакетно добавляет сделки со связанными товарными позициями и возвращает массив ID сделок.
-    - `$deals` - массив наборов полей сделок со связанными товараными позициями `PRODUCTS`;
-    - `$params` - набор параметров сделки.
-- `updateDeals(array $deals = [], array $params = []) :array` Пакетно обновляет сделки со связанными товарными позициями и возвращает массив ID сделок.
-    - `$deals` - массив наборов полей сделок со связанными товарными позициями `PRODUCTS`;
-    - `$params` - набор параметров сделки.
+- `fetchDealList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+     Загружает все сделки с возможностью фильтрации, сортировки и выборки полей.  
+     Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+- `addDeals(array $deals = [], array $params = []) :array`  
+   Пакетно добавляет сделки со связанными товарными позициями и возвращает массив ID сделок.
+- `updateDeals(array $deals = [], array $params = []) :array`  
+    Пакетно обновляет сделки со связанными товарными позициями и возвращает массив ID сделок.
 - `deleteDeals(array $dealIds = []) :array` Пакетно удаляет сделки и возвращает массив ID сделок.
-    - `$dealIds` - массив ID сделок.
-- `setDealFile($dealId, $userFieldId, string $fileName, string $fileContent, bool $isBase64FileData = true) :int` Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить) и возвращает ID сделки.
-    - `$dealId` - ID cделки;
-    - `$userFieldId` ID НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX');
-    - `$fileName` - имя файла;
-    - `$fileContent` - RAW данные файла;
-    - `$isBase64FileData` - RAW данные файла закодированны BASE64.
--  `setDealFiles($dealId, $userFieldId, array $files = [], bool $isBase64FileData = true) :int` Устанавливает файлы во множественное пользовательское поле типа файл (файлы можно удалить) и возвращает ID сделки.
-    - `$dealId` - ID cделки;
-    - `$userFieldId` ID НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX');
-    - `$files` - массив параметров файлов ([ [  < Имя файла >, < RAW данные файла > ], ... ]) (пустой массив для удаления всех файлов);
-    - `$isBase64FileData` - RAW данные файла закодированны BASE64.
+- `setDealFile($dealId, $userFieldId, string $fileName, string $fileContent, bool $isBase64FileData = true) :int`  
+    Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить) и возвращает ID сделки.
+- `setDealFiles($dealId, $userFieldId, array $files = [], bool $isBase64FileData = true) :int`  
+    Устанавливает файлы во множественное пользовательское поле типа файл (файлы можно удалить) и возвращает ID сделки.
 - `getDealContactItems($dealId) :array` Возвращает массив параметров контактов, связанных со сделкой.
-    - `$dealId` - ID cделки.
 - `setDealContactItems($dealId, array $contacts) :array` Устанавливает контакты, связанные со сделкой.
-    - `$dealId` - ID cделки;
-    - `$contacts` - массив параметров контактов.
 - `setDealProductRows($dealId, array $products) :array` Устанавливает товарые позиции, связанные со сделкой.
-    - `$dealId` - ID cделки;
-    - `$products` - массив параметров товарных позиций.
 - `getDealProductRows($dealId) :array` Возвращает массив параметров товарных позиций, связанных со сделкой.
-    - `$dealId` - ID cделки.
 - `getDealProductRowFields() :array` Возвращает описание полей товарных позиций.
 - `getDealFields() :array` Возвращает описание полей cделки, в том числе пользовательских.
+
+Параметры методов:
+
++ `$dealId` - ID сделки;
++ `$dealIds` - массив ID сделок;
++ `$with` - имена связанных сущностей, возвращаемых вместе со сделкой;
+    * `CONTACTS` - контакты;
+    * `PRODUCTS` - товарные позиции;
+- `$fields` - набор полей сделки;
+- `$params` - набор параметров сделки;
+- `$filter` - параметры фильтрации;
+- `$order` - параметры сортировки;
+- `$select` - параметры выборки полей;
+- `$userFieldId` ID НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX');
+- `$files` - массив параметров файлов ([ [  < Имя файла >, < RAW данные файла > ], ... ]) (пустой массив для удаления всех файлов);
+- `$isBase64FileData` - RAW данные файла закодированны BASE64;
+- `$contacts` - массив параметров контактов;
+- `$products` - массив параметров товарных позиций.
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -232,22 +220,36 @@ try {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8"></a>
+### Методы для работы с контактами
+
+Методы для работы с контактами находятся в трейте `\App\Bitrix24\Contact`:
+
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8"></a>
+### Методы для работы с компаниями
+
+Методы для работы с компаниями находятся в трейте `\App\Bitrix24\Company`:
+
+
+
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8"></a>
 ### Методы для работы с каталогами
 
-Методы для работы с товарными каталогами находятся в трейте `\App\Bitrix24\Catalog`.
+Методы для работы с товарными каталогами находятся в трейте `\App\Bitrix24\Catalog`:
 
-- `getCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator` 
+- `getCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator`   
     Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.
-    + `$filter` - параметры фильтрации;
-    + `$order` - параметры сортировки;
-    + `$select` - параметры выборки полей.
-- `fetchCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator`
-    Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.
+- `fetchCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+    Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.  
     Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
-    + `$filter` - параметры фильтрации;
-    + `$order` - параметры сортировки;
-    + `$select` - параметры выборки полей.
+
+Параметры методов:
+
++ `$filter` - параметры фильтрации;
++ `$order` - параметры сортировки;
++ `$select` - параметры выборки полей.
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -270,21 +272,34 @@ try {
 }
 ```
 
-<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8"></a>
-### Методы для работы с пользователями
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8"></a>
+### Методы для работы с товарами
 
-Методы для работы с пользователями находятся в трейте `\App\Bitrix24\User`.
+Методы для работы с товарами находятся в трейте `\App\Bitrix24\Product`:
 
-- `getUser($userId) ?:array` Возвращает параметры пользователя по ID.
-    + `$userId` - ID пользователя.
-- `getUsers(array $filter = [], string $order = 'ASC', string $sort = '', bool $adminMode = false) :\Generator`
-    Загружает всех пользователей с возможностью фильтрации, сортировки и выборки полей.
-    + `$filter` - параметры фильтрации;
-    + `$order` - направление сортировки (ASC|DESC);
-    + `$sort` -  поле, по которому сортируются результаты;
-    + `$select` - параметры выборки полей;
-    + `$adminMode` - включает режим администратора для получения данных о любых пользователях.
-- `getUserFields() :array` Возвращает описание полей пользователя.
+- `getProduct($productId) :array` Возвращает товар по ID.
+- `addProduct(array $fields = []) :int` Добавляет товар и возвращает его ID.
+- `updateProduct($productId, array $fields = []) :int` Обовляет товар и возвращает его ID.
+- `deleteProduct($productId) :int` Удаляет товар и возвращает его ID.
+-  `getProductList(array $filter = [], array $select = [ '*', 'PROPERTY_*' ], array $order = []) :\Generator`  
+    Загружает все товары с возможностью фильтрации, сортировки и выборки полей.
+-  `fetchProductList(array $filter = [], array $select = [ '*', 'PROPERTY_*' ], array $order = []) :\Generator`  
+    Загружает все товары с возможностью фильтрации, сортировки и выборки полей.  
+    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.
+- `addProducts(array $products = []) :array` Пакетно добавляет товары.
+- `updateProducts(array $products = []) :array` Пакетно обновляет товары.
+- `deleteProducts(array $productIds = []) :array` Пакетно удаляет товары.
+- `getProductFields() :array` Возвращает описание полей товара, в том числе пользовательских.
+
+Параметры методов:
+
++ `$productId` - ID товара.
++ `$productIds` - массив ID товаров.
++ `$fields` - набор полей товара.
++ `$filter` - параметры фильтрации;
++ `$select` - параметры выборки полей;
++ `$order` - параметры сортировки.
++ `$products` - массив наборов полей товара.
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -294,7 +309,161 @@ try {
     $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
     $bx24 = new Bitrix24API($webhookURL);
 
-    // Получаем параметры пользователя по ID
+    // Получаем товар по его ID
+    $product = $bx24->getProduct(2396);
+    print_r($product);
+
+    // Обновляем товар
+    $bx24->updateProduct(2396, [
+        "PRICE" => 4900
+    ]);
+
+    // Удаляем товар
+    $bx24->deleteProduct(2396);
+
+    // Загружаем все товары c фильтрацией по полю SECTION_ID
+    $generator = $bx24->fetchProductList([ 'SECTION_ID' => 13 ]);
+    foreach ($generator as $users) {
+        foreach($users as $user) {
+            print_r($user);
+        }
+    }
+       
+    // Пакетно обновляем товары
+    $bx24->updateProducts([
+        [   
+            "ID"          => 27,
+            "NAME"        => "Тестовый товар 11",
+            "CURRENCY_ID" => "RUB",
+            "PRICE"       => 4900,
+            "SORT"        => 500,
+            "SECTION_ID"  => 13
+        ],
+        [ 
+            "ID"          => 28,
+            "NAME"        => "Тестовый товар 12",
+            "CURRENCY_ID" => "RUB",
+            "PRICE"       => 900,
+            "SORT"        => 100,
+            "SECTION_ID"  => 13
+        ],
+        [
+            "ID"          => 29,
+            "NAME"        => "Тестовый товар 13",
+            "CURRENCY_ID" => "RUB",
+            "PRICE"       => 2900,
+            "SORT"        => 300,
+            "SECTION_ID"  => 13
+        ]
+    ]);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2"></a>
+### Методы работы с разделами товаров
+
+Методы для работы с разделами товаров находятся в трейте `\App\Bitrix24\ProductSection`:
+
+- `getProductSection($productSectionId) :array` Возвращает раздел товаров по ID.
+- `addProductSection(array $fields = []) :int` Добавляет раздел товаров и возвращает его ID.
+- `updateProductSection($productSectionId, array $fields = []): int` Обновляет раздел товаров и возвращает его ID.
+- `deleteProductSection($productSectionId) :int` Удаляет раздел товаров и возвращает его ID.
+- `getProductSectionList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+   Загружает все разделы товаров с возможностью фильтрации, сортировки и выборки полей.
+- `fetchProductSectionList(array $filter = [], array $select = [], array $order = []) :\Generator`  
+   Загружает все разделы товаров с возможностью фильтрации, сортировки и выборки полей.
+   Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.
+- `addProductSections(array $productSections = []) :array` Пакетно добавляет разделы товаров.
+- `updateProductSections(array $productSections = []) :array` Пакетно обновляет разделы товаров.
+- `deleteProducts(array $productSectionIds = []) :array` Пакетно удаляет разделы товаров.
+- `getProductSectionFields() :array` Возвращает описание полей раздела товара.
+
+Параметры методов:
+
++ `$productSectionId` - ID раздела товаров;
++ `$productSectionIds` - массив ID разделов товаров;
++ `$fields` - набор полей раздела товаров;
++ `$filter` - параметры фильтрации;
++ `$select` - параметры выборки полей;
++ `$order` - параметры сортировки.
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Получаем раздел товаров по его ID
+    $productSection = $bx24->getProductSection(16);
+    print_r($productSection);
+
+    // Обновляем раздел товаров
+    $bx24->updateProductSection(16, [
+        'NAME' => 'Раздел товаров 1'
+    ]);
+
+    // Удаляем раздел товаров
+    $bx24->deleteProductSection(16);
+
+    // Загружаем все разделы товаров c фильтрацией по полю CATALOG_ID
+    $generator = $bx24->fetchProductSectionList([ 'CATALOG_ID' => 2 ]);
+    foreach ($generator as $productSections) {
+        foreach($productSections as $productSection) {
+            print_r($productSection);
+        }
+    }
+      
+    // Пакетно добавляем разделы товаров
+    $productSectionIds = $bx24->addProductSections([
+        [   
+            "NAME"       => "Раздел товаров 3",
+            'CATALOG_ID' => 2
+        ],
+        [   
+            "NAME"       => "Раздел товаров 4",
+            'CATALOG_ID' => 2
+        ]
+    ]);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
+```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8"></a>
+### Методы для работы с пользователями
+
+Методы для работы с пользователями находятся в трейте `\App\Bitrix24\User`:
+
+- `getUser($userId) ?:array` Возвращает пользователя по ID.
+- `getUsers(array $filter = [], string $order = 'ASC', string $sort = '', bool $adminMode = false) :\Generator`  
+    Загружает всех пользователей с возможностью фильтрации, сортировки и выборки полей.
+- `getUserFields() :array` Возвращает описание полей пользователя.
+
+Параметры методов:
+
++ `$userId` - ID пользователя;
++ `$filter` - параметры фильтрации;
++ `$order` - направление сортировки (ASC|DESC);
++ `$sort` -  поле, по которому сортируются результаты;
++ `$select` - параметры выборки полей;
++ `$adminMode` - включает режим администратора для получения данных о любых пользователях.
+
+
+```php
+use \App\Bitrix24\Bitrix24API;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Получаем пользователя по ID
     $user = $bx24->getUser(34782);
     print_r($user);
 
@@ -318,16 +487,19 @@ try {
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8"></a>
 ### Методы работы с задачами
 
-Методы для работы с задачами находятся в трейте `\App\Bitrix24\Task`.
+Методы для работы с задачами находятся в трейте `\App\Bitrix24\Task`:
 
-- `getTask($taskId, array $select = []) :?array` Возращает параметры задачи по ID.
-    + `$taskId` - ID задачи;
-    + `$select` - параметры выборки полей.
+- `getTask($taskId, array $select = []) :?array` Возращает задачу по ID.
 - `addTask(array $fields = []) :int` Добавляет новую задачу.
-    + `$fields` - набор полей задачи.
 - `addTasks(array $tasks = []) :array` Пакетно добавляет задачи.
-    + `$tasks` - массив наборов полей задачи.
 - `getTaskFields() :array` Возвращает описание полей задачи.
+
+Параметры методов:
+
++ `$taskId` - ID задачи;
++ `$select` - параметры выборки полей;
++ `$fields` - набор полей задачи;
++ `$tasks` - массив наборов полей задач.
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -361,15 +533,18 @@ try {
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8"></a>
 ### Методы для работы с делами
 
-Методы для работы с делами (активностями) находятся в трейте `\App\Bitrix24\Activity`.
+Методы для работы с делами (активностями) находятся в трейте `\App\Bitrix24\Activity`:
 
 - `getActivity($activityId) :?array` Возвращает дело по ID.
-    + `$activityId` - ID дела.
-- `addActivity(array $fields = []) :int` Создает новое дело.
-    + `$fields` - набор полей дела.
+- `addActivity(array $fields = []) :int` Создает новое дело и возвращает его ID.
 - `addActivities(array $activities = []) :array` Пакетно создает дела.
-    + `$activities` - массив наборов полей дел.
 - `getActivityFields() :array` Возвращает описание полей дела.
+
+Параметры методов:
+
++ `$activityId` - ID дела;
++ `$fields` - набор полей дела;
++ `$activities` - массив наборов полей дел.
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -417,21 +592,25 @@ try {
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC"></a>
 ### Методы для работы с диском
 
-Методы для работы с Диском находятся в трейте `\App\Bitrix24\Disk`.
+Методы для работы с Диском находятся в трейте `\App\Bitrix24\Disk`:
 
--  `getDiskStorageList(array $filter = []) :\Generator`
+-  `getDiskStorageList(array $filter = []) :\Generator`  
     Загружает список доступных хранилищ c возможностью фильтрации.
-    + `$filter` - параметры фильтрации.
-- `getDiskStorageChildren($storageId, array $filter = []) :array`
+- `getDiskStorageChildren($storageId, array $filter = []) :array`  
     Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища c возможностью фильтрации.
-    + `$storageId` - ID хранилища.
-    + `$filter` - параметры фильтрации.
 - `uploadfileDiskFolder($folderId, string $fileContent, array $data, bool $isBase64FileData = true) :array`
     Загружает новый файл в указанную папку на Диск.
-    + `$folderId` - ID папки;
-    + `$fileContent` - RAW данные файла;
-    + `$data` - набор параметров, описывающих файл (обязательное поле NAME - имя нового файла);
-    + `$isBase64FileData` - RAW данные файла закодированны BASE64.
+
+Параметры методов:
+
++ `$filter` - параметры фильтрации;
++ `$storageId` - ID хранилища;
++ `$filter` - параметры фильтрации;
++ `$folderId` - ID папки;
++ `$fileContent` - RAW данные файла;
++ `$data` - набор параметров, описывающих файл (обязательное поле NAME - имя нового файла);
++ `$isBase64FileData` - RAW данные файла закодированны BASE64.
+
 
 ```php
 use \App\Bitrix24\Bitrix24API;
