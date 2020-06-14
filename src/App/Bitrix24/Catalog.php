@@ -8,10 +8,11 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.1.0
+ * @version 1.2.0
  *
  * v1.0.0 (15.10.2019) Начальная версия
  * v1.1.0 (11.06.2020) Добавлен метод fetchCatalogList()
+ * v1.2.0 (14.06.2020) Добавлен метод getCatalogFields()
  *
  */
 declare(strict_types = 1);
@@ -20,6 +21,15 @@ namespace App\Bitrix24;
 
 trait Catalog
 {
+    /**
+     * Возвращает описание полей каталога товаров
+     * @return array
+     */
+    public function getCatalogFields()
+    {
+        return $this->request('crm.catalog.fields');
+    }
+
     /**
      * Возвращает все товарные каталоги
      * @param array $filter Параметры фильтрации

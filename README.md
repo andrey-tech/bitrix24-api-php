@@ -10,6 +10,7 @@
 <!-- MarkdownTOC levels="1,2,3,4,5,6" autoanchor="true" autolink="true" -->
 
 - [Требования](#%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
+- [Установка](#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
 - [Класс `Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
@@ -26,7 +27,12 @@
     - [Методы для работы с диском](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
 - [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
     - [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
+        - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-1)
+        - [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B)
     - [Класс `\App\DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger)
+        - [Методы класса](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
+        - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-2)
+        - [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-1)
 - [Автор](#%D0%90%D0%B2%D1%82%D0%BE%D1%80)
 - [Лицензия](#%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)
 
@@ -36,7 +42,26 @@
 ## Требования
 
 - PHP >= 7.0.
+- класс [`\App\HTTP`](https://github.com/andrey-tech/http-client-php) - НТТР(S) клиент с троттлингом запросов;
+- класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) - логгер, cохраняющий отладочную информацию в файл;
 - Произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
+
+
+<a id="%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0"></a>
+## Установка
+
+Установка через composer:
+```
+$ composer require andrey-tech/bitrix24-api-php:"^1.4"
+```
+
+или добавить
+
+```
+"andrey-tech/bitrix24-api-php": "^1.4"
+```
+
+в секцию require файла composer.json.
 
 <a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api"></a>
 ## Класс `Bitrix24API`
@@ -82,7 +107,7 @@
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B"></a>
 ### Дополнительные параметры
 
-Дополнительные параметры доступны через публичные свойства класса `Bitrix24API`.
+Дополнительные параметры доступны через публичные свойства объекта класса `\App\Bitrix24\Bitrix24API`:
 
 Свойство                | По умолчанию       | Описание
 ----------------------- | ------------------ | --------
@@ -417,6 +442,7 @@ try {
 - `fetchCatalogList(array $filter = [], array $select = [], array $order = []) :\Generator`  
     Загружает все каталоги с возможностью фильтрации, сортировки и выборки полей.  
     Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+- `getCatalogFields() :array` Возвращает описание полей каталога товаров.
 
 Параметры методов:
 
@@ -826,14 +852,18 @@ try {
 <a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp"></a>
 ### Класс `\App\HTTP`
 
-Класс `\App\HTTP` обеспечивает:
+Класс [`\App\HTTP`](https://github.com/andrey-tech/http-client-php) обеспечивает:
 
 - формирование POST запросов к API Битрикс 24 по протоколу HTTPS;
 - троттлинг запросов к API на требуемом уровне - [не более 2-х запросов в секунду](https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php);
 - вывод отладочной информации о запросах к API в STDOUT.
 
-При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`.  
-Дополнительные параметры доступны через публичные свойства класса `\App\HTTP`.
+При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`.
+
+<a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-1"></a>
+#### Дополнительные параметры
+
+Дополнительные параметры устанавливаются через публичные свойства объекта класса `\App\HTTP`:
 
 Свойство                | По умолчанию            | Описание
 ----------------------- | ----------------------- | --------
@@ -845,12 +875,15 @@ try {
 `$verifySSLCerfificate` | true                    | Включить проверку SSL/TLS-сертификата сервера
 `$SSLCertificateFile`   | 'cacert.pem'            | Устанавливает файл SSL/TLS-сертификатов X.509 корневых удостоверяющих центров (CA) в формате РЕМ (null - использовать файл, указанный в параметре curl.cainfo файла php.ini)
 `$userAgent`            | 'HTTP-client/2.x.x'     | Устанавливает НТТР заголовок UserAgent в запросах
-`$curlTimeout`          | 60                      | Устанавливает таймаут установения соединения, секунды
+`$curlConnectTimeout`   | 60                      | Устанавливает таймаут соединения, секунды
+`$curlTimeout`          | 60                      | Устанавливает таймаут обмена данными, секунды
 `$successStatusCodes`   | [ 200 ]                 | Коды статуса НТТР, которые считаются успешными
+
+<a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B"></a>
+#### Примеры
 
 ```php
 use \App\Bitrix24\Bitrix24API;
-use \App\HTTP;
 
 $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
 $bx24 = new Bitrix24API($webhookURL);
@@ -861,32 +894,79 @@ $bx24->http->debugLevel = HTTP::DEBUG_URL |  HTTP::DEBUG_HEADERS | HTTP::DEBUG_C
 // Устанавливаем троттлинг запросов на уровне не более 1 запроса в 2 секунды
 $bx24->http->throttle = 0.5;
 
-// Устанавливаем таймаут соединения в 30 секунд
+// Устанавливаем таймаут обмена данными в 30 секунд
 $bx24->http->curlTimeout = 30;
+```
+
+Примеры отладочных сообщений:
+```
+[1] ===> POST https://www.example.com
+POST / HTTP/1.1
+Host: www.example.com
+User-Agent: HTTP-client/2.x.x
+Accept: */*
+Content-Type: application/json
+Content-Length: 55
+
+
+{"username":"ivan@example.com","password":"1234567890"}
+
+[1] <=== RESPONSE 0.9269s (200)
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: max-age=604800
+Content-Type: text/html; charset=UTF-8
+Date: Sun, 14 Jun 2020 13:09:33 GMT
+Etag: "3147526947"
+Expires: Sun, 21 Jun 2020 13:09:33 GMT
+Last-Modified: Thu, 17 Oct 2019 07:18:26 GMT
+Server: EOS (vny/0453)
+Content-Length: 1256
+
+<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+</head>
+<body>
+<div>
+    <h1>Example Domain</h1>
+    <p>This domain is for use in illustrative examples in documents. You may use this
+    domain in literature without prior coordination or asking for permission.</p>
+    <p><a href="https://www.iana.org/domains/example">More information...</a></p>
+</div>
+</body>
+</html>
 ```
 
 <a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger"></a>
 ### Класс `\App\DebugLogger`
 
-Класс `\App\DebugLogger` обеспечивает логирование запросов и ответов к API в файл.  
+Класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) обеспечивает логирование запросов и ответов к API Битрикс24 в файл.  
 При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`. 
 
-Список методов класса:
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
+#### Методы класса
 
-- `static instance(string $logFileName = 'debug.log') :\App\DebugLogger` Возвращает объект класса.
-    + `$logFileName` - имя лог файла.
+- `static instance(string $logFileName = 'debug.log') :\App\DebugLogger`  
+    Возвращает единственнный объект класса для заданного лог-файла `$logFileName`.
+    + `$logFileName` - имя лог-файла.
 - `save(mixed $info, $object = null) :void` Сохраняет подлежащую логированию информацию в файл.
     + $info - строка, массив или объект для логирования;
     + $object - ссылка на объект класса в котором выполняется логирование.
 
-Дополнительные параметры логирования доступы через публичные свойства класса `\App\DebugLogger`.
+<a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-2"></a>
+#### Дополнительные параметры
+
+Дополнительные параметры устанавливаются через публичные свойства объекта класса `\App\DebugLogger`:
 
 Свойство                | По умолчанию  | Описание
 ----------------------- | ------------- | --------
 `$isActive`             | false         | Включает или выключает логирование
-`$logFileDir`           | `temp/`       | Устанавливает каталог в котором сохраняются лог файлы
+`$logFileDir`           | `temp/`       | Устанавливает каталог, в котором сохраняются лог-файлы
 
-
+<a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-1"></a>
+#### Примеры
 
 ```php
 use \App\Bitrix24\Bitrix24API;
@@ -905,6 +985,48 @@ $bx24->logger->logFileDir = 'logs/';
 $bx24->logger->isActive = true;
 
 ```
+
+Пример результатов логирования:
+
+```
+*** 92qshr5 [2020-06-14 13:32:44,993285 +00:00 Δ0.012308 s, 0.70/2.00 MiB] ********************
+* Class: App\Bitrix24\Bitrix24API
+ЗАПРОС: crm.company.list.json
+{
+    "order": {
+        "ID": "ASC"
+    },
+    "filter": {
+        ">ID": 0
+    },
+    "select": [],
+    "start": -1
+}
+
+
+*** 92qshr5 [2020-06-14 13:32:46,900518 +00:00 Δ1.907233 s, 1.14/2.00 MiB] ********************
+ОТВЕТ: crm.company.list.json
+{
+    "result": [
+        {
+            "ID": "2",
+            "COMPANY_TYPE": "PARTNER",
+            "TITLE": "ООО",
+            "LOGO": {
+                "id": 112,
+                "showUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?ownerId=2&fieldName=LOGO&dynamic=N&fileId=112",
+                "downloadUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?auth=&ownerId=2&fieldName=LOGO&dynamic=N&fileId=112"
+            }
+        }
+    }
+}
+
+*** 92qshr5 [2020-06-14 13:32:46,902085 +00:00 Δ0.001567 s, 1.30/2.00 MiB] ********************
+* Class: App\Bitrix24\Bitrix24API
+По запросу (fetchList) crm.company.list получено сущностей: 50, всего получено: 50
+```
+
+
 
 <a id="%D0%90%D0%B2%D1%82%D0%BE%D1%80"></a>
 ## Автор
