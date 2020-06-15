@@ -7,7 +7,7 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.3.0
+ * @version 1.3.1
  *
  * v1.0.0 (13.10.2019) Начальный релиз
  * v1.1.0 (31.10.2019) Добавлен метод getLastResponse()
@@ -19,6 +19,7 @@
  * v1.2.5 (25.11.2019) Теперь свойста debugLogger b http публичные
  * v1.2.6 (03.12.2019) Теперь метод request() публичный
  * v1.3.0 (09.06.2020) Изменен метод логирования запросов и ответов, добавлен метод fetchList()
+ * v1.3.1 (15.06.2020) Исправлено логирование ответа
  *
  */
 
@@ -116,7 +117,7 @@ class Bitrix24API
         // Логирование ответа
         if (isset($this->logger)) {
             $jsonResponse = $this->toJSON($this->lastResponse, true);
-            $this->logger->save("ОТВЕТ: {$function}" . PHP_EOL . $jsonResponse);
+            $this->logger->save("ОТВЕТ: {$function}" . PHP_EOL . $jsonResponse, $this);
         }
 
         // Проверка кода состояния HTTP

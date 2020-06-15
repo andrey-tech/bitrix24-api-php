@@ -3,7 +3,7 @@
 ![Bitrix24 logo](./assets/bitrix24-logo.png)
 
 Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
-троттлингом запросов к API и логированием в файл.
+троттлингом запросов и логированием в файл.
 
 # Содержание
 
@@ -11,7 +11,7 @@
 
 - [Требования](#%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
 - [Установка](#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
-- [Класс `Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api)
+- [Класс `\App\Bitrix24\Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
@@ -63,8 +63,8 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.4"
 
 в секцию require файла composer.json.
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api"></a>
-## Класс `Bitrix24API`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api"></a>
+## Класс `\App\Bitrix24\Bitrix24API`
 
 Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.  
 При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.  
@@ -867,7 +867,7 @@ try {
 
 Свойство                | По умолчанию            | Описание
 ----------------------- | ----------------------- | --------
-`$debugLevel`           | `\App\HTTP::DEBUG_NONE` | Устанавливает уровень вывода отладочной информации о запросах в STDOUT (DEBUG_NONE, DEBUG_URL, DEBUG_HEADERS, DEBUG_CONTENT)
+`$debugLevel`           | `\App\HTTP::DEBUG_NONE` | Устанавливает уровень вывода отладочной информации о запросах в STDOUT (битовая маска, составляемая из значений DEBUG_URL, DEBUG_HEADERS, DEBUG_CONTENT)
 `$throttle`             | 2                       | Максимальное число HTTP запросов в секунду
 `$addBOM`               | false                   | Добавлять [маркер ВОМ](https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%80_%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8_%D0%B1%D0%B0%D0%B9%D1%82%D0%BE%D0%B2) UTF-8 (EFBBBF) к запросам в формате JSON
 `$useCookies`           | false                   | Использовать cookies в запросах
@@ -884,59 +884,72 @@ try {
 
 ```php
 use \App\Bitrix24\Bitrix24API;
+use \App\HTTP;
 
-$webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
-$bx24 = new Bitrix24API($webhookURL);
+try {
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
 
-// Устанавливаем максимальный уровень вывода отладочных сообщений в STDOUT
-$bx24->http->debugLevel = HTTP::DEBUG_URL |  HTTP::DEBUG_HEADERS | HTTP::DEBUG_CONTENT;
+    // Устанавливаем максимальный уровень вывода отладочных сообщений в STDOUT
+    $bx24->http->debugLevel = HTTP::DEBUG_URL |  HTTP::DEBUG_HEADERS | HTTP::DEBUG_CONTENT;
 
-// Устанавливаем троттлинг запросов на уровне не более 1 запроса в 2 секунды
-$bx24->http->throttle = 0.5;
+    // Устанавливаем троттлинг запросов на уровне не более 1 запроса в 2 секунды
+    $bx24->http->throttle = 0.5;
 
-// Устанавливаем таймаут обмена данными в 30 секунд
-$bx24->http->curlTimeout = 30;
+    // Устанавливаем таймаут обмена данными в 30 секунд
+    $bx24->http->curlTimeout = 30;
+
+    // Получаем компанию по ID
+    $results = $bx24->getCompany(20);
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
 ```
 
 Примеры отладочных сообщений:
 ```
-[1] ===> POST https://www.example.com
-POST / HTTP/1.1
+[1] ===> POST https://www.example.com/rest/1/u7ngxagzrhpuj31a/crm.company.get.json
+POST rest/1/u7ngxagzrhpuj31a/crm.company.get.json HTTP/1.1
 Host: www.example.com
 User-Agent: HTTP-client/2.x.x
 Accept: */*
-Content-Type: application/json
-Content-Length: 55
+Content-Length: 5
+Content-Type: application/x-www-form-urlencoded
 
 
-{"username":"ivan@example.com","password":"1234567890"}
+id=20
 
-[1] <=== RESPONSE 0.9269s (200)
+[1] <=== RESPONSE 0.5348s (200)
 HTTP/1.1 200 OK
-Accept-Ranges: bytes
-Cache-Control: max-age=604800
-Content-Type: text/html; charset=UTF-8
-Date: Sun, 14 Jun 2020 13:09:33 GMT
-Etag: "3147526947"
-Expires: Sun, 21 Jun 2020 13:09:33 GMT
-Last-Modified: Thu, 17 Oct 2019 07:18:26 GMT
-Server: EOS (vny/0453)
-Content-Length: 1256
+Server: nginx/1.16.1
+Date: Mon, 15 Jun 2020 13:11:33 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+P3P: policyref="/bitrix/p3p.xml", CP="NON DSP COR CUR ADM DEV PSA PSD OUR UNR BUS UNI COM NAV INT DEM STA"
+X-Powered-CMS: Bitrix Site Manager (bc2cad9153cb418bb2dfd5602c3c3754)
+Set-Cookie: PHPSESSID=uSBxTO1tiaVfYPd7I7BhvjPLc2H2RhuD; path=/; secure; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Set-Cookie: qmb=.; path=/
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: origin, content-type, accept
+X-Content-Type-Options: nosniff
+X-Bitrix-Rest-Time: 0.0098488331
+X-Bitrix-Rest-User-Time: 0.0042990000
+X-Bitrix-Rest-System-Time: 0.0000030000
+Set-Cookie: BITRIX_SM_SALE_UID=4; expires=Thu, 10-Jun-2021 13:11:33 GMT; Max-Age=31104000; path=/
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Bitrix-Times: 0.104/0.104/0.000
+X-Bitrix-TCP: 32250/6750/20/14480
+X-Bitrix-RI: 3b51dd618cb995cfc06d2016cc4c0c94
+X-Bitrix-LB: lb-ru-04
 
-<!doctype html>
-<html>
-<head>
-    <title>Example Domain</title>
-</head>
-<body>
-<div>
-    <h1>Example Domain</h1>
-    <p>This domain is for use in illustrative examples in documents. You may use this
-    domain in literature without prior coordination or asking for permission.</p>
-    <p><a href="https://www.iana.org/domains/example">More information...</a></p>
-</div>
-</body>
-</html>
+{"result":{"ID":"20","COMPANY_TYPE":"CUSTOMER","LOGO":null,"LEAD_ID":null,"HAS_PHONE":"N","HAS_EMAIL":"Y"}}
 ```
 
 <a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger"></a>
@@ -972,18 +985,25 @@ Content-Length: 1256
 use \App\Bitrix24\Bitrix24API;
 use \App\DebugLogger;
 
-$webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
-$bx24 = new Bitrix24API($webhookURL);
+try {
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
 
-$logFileName = 'debug_bitrix24api.log'
-$bx24->logger = DebugLogger::instance($logFileName);
+    $logFileName = 'debug_bitrix24api.log'
+    $bx24->logger = DebugLogger::instance($logFileName);
 
-// Устанавливаем каталог для сохранения лог файлов
-$bx24->logger->logFileDir = 'logs/';
+    // Устанавливаем каталог для сохранения лог файлов
+    $bx24->logger->logFileDir = 'logs/';
 
-// Включаем логирование
-$bx24->logger->isActive = true;
+    // Включаем логирование
+    $bx24->logger->isActive = true;
 
+    // Загружаем все компании
+    $bx24->fetchCompanyList();
+
+} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}
 ```
 
 Пример результатов логирования:
@@ -1014,8 +1034,8 @@ $bx24->logger->isActive = true;
             "TITLE": "ООО",
             "LOGO": {
                 "id": 112,
-                "showUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?ownerId=2&fieldName=LOGO&dynamic=N&fileId=112",
-                "downloadUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?auth=&ownerId=2&fieldName=LOGO&dynamic=N&fileId=112"
+                "showUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?ownerId=2",
+                "downloadUrl": "\/bitrix\/components\/bitrix\/crm.company.show\/show_file.php?auth=&ownerId=2"
             }
         }
     }
