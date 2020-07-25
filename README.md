@@ -1,6 +1,9 @@
 # Bitrix24 API PHP Wrapper
 
 ![Bitrix24 logo](./assets/bitrix24-logo.png)
+[![Latest Stable Version](https://poser.pugx.org/andrey-tech/bitrix24-api-php/v)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![Total Downloads](https://poser.pugx.org/andrey-tech/bitrix24-api-php/downloads)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![License](https://poser.pugx.org/andrey-tech/bitrix24-api-php/license)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
 
 Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
 троттлингом запросов и логированием в файл.
