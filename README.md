@@ -1,6 +1,6 @@
 # Bitrix24 API PHP Wrapper
 
-![Bitrix24 logo](./assets/bitrix24-logo.png)
+![Bitrix24 logo](./assets/bitrix24-logo.png)  
 [![Latest Stable Version](https://poser.pugx.org/andrey-tech/bitrix24-api-php/v)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
 [![Total Downloads](https://poser.pugx.org/andrey-tech/bitrix24-api-php/downloads)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
 [![License](https://poser.pugx.org/andrey-tech/bitrix24-api-php/license)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
