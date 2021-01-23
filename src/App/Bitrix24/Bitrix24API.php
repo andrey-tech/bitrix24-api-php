@@ -7,7 +7,7 @@
  * @see https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.3.1
+ * @version 1.3.2
  *
  * v1.0.0 (13.10.2019) Начальный релиз
  * v1.1.0 (31.10.2019) Добавлен метод getLastResponse()
@@ -16,10 +16,11 @@
  * v1.2.2 (09.11.2019) В метод to JSON добавлен параметр prettyPrint; добавлено свойство $enableDebugLog
  * v1.2.3 (11.11.2019) Удалено свойствo $enableDebugLog
  * v1.2.4 (17.11.2019) Изменен формат логгирования запросов и ответов
- * v1.2.5 (25.11.2019) Теперь свойста debugLogger b http публичные
+ * v1.2.5 (25.11.2019) Теперь свойства debugLogger и http публичные
  * v1.2.6 (03.12.2019) Теперь метод request() публичный
  * v1.3.0 (09.06.2020) Изменен метод логирования запросов и ответов, добавлен метод fetchList()
  * v1.3.1 (15.06.2020) Исправлено логирование ответа
+ * v1.3.2 (23.01.2021) Исправлены сообщения об ошибках
  *
  */
 
@@ -126,7 +127,7 @@ class Bitrix24API
             $jsonParams = $this->toJSON($params);
             $jsonResponse = $this->toJSON($this->lastResponse);
             throw new Bitrix24APIException(
-                "Ошибка: HTTP {$httpCode} при запросе {$function} ({$jsonParams}): {$jsonResponse}"
+                "Ошибка: HTTP код {$httpCode} при запросе '{$function}' ({$jsonParams}): {$jsonResponse}"
             );
         }
 
@@ -134,7 +135,7 @@ class Bitrix24API
         if (! empty($this->lastResponse['error']) || ! empty($this->lastResponse['error_description'])) {
             $jsonParams = $this->toJSON($params);
             $jsonResponse = $this->toJSON($this->lastResponse);
-            throw new Bitrix24APIException("Ошибка при запросе {$function} ({$jsonParams}): {$jsonResponse}");
+            throw new Bitrix24APIException("Ошибка при запросе '{$function}' ({$jsonParams}): {$jsonResponse}");
         }
 
         return $this->lastResponse['result'];
