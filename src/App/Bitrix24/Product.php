@@ -4,26 +4,30 @@
  * Трейт Product. Методы для работы с товаром в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.0.1 (30.10.2019) Добавлено значение по умолчанию в getProductList() для $select = [ '*', 'PROPERTY_*' ]
  * v1.1.0 (15.11.2019) Добавлен метод getProductFields()
  * v1.2.0 (09.06.2020) Добавлен метод fetchProductList()
- *
+ * v1.2.1 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Product
 {
     /**
      * Возвращает описание полей товара, в том числе пользовательских
+     *
      * @return array
      */
     public function getProductFields()
@@ -33,6 +37,7 @@ trait Product
 
     /**
      * Возвращает товар по ID
+     *
      * @param  int|string $productId ID товара
      * @return array
      */
@@ -48,6 +53,7 @@ trait Product
 
     /**
      * Добавляет товар
+     *
      * @param  array $fields Список полей товара
      * @return int
      */
@@ -65,8 +71,11 @@ trait Product
 
     /**
      * Обновляет товар
+     *
      * @param  int|string $productId ID товара
-     * @param  array $fields Список полей товара
+     * @param  array      $fields    Список
+     *                               полей
+     *                               товара
      * @return int
      */
     public function updateProduct($productId, array $fields = [])
@@ -84,6 +93,7 @@ trait Product
 
     /**
      * Удаляет товар по ID
+     *
      * @param  string|int $productId ID товара
      * @return array
      */
@@ -99,16 +109,18 @@ trait Product
 
     /**
      * Возвращает все товары
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
     public function getProductList(
         array $filter = [],
         array $select = [ '*', 'PROPERTY_*' ],
         array $order = []
-    ) :\Generator {
+    ): Generator {
         $params = [
             'order'  => $order,
             'filter' => $filter,
@@ -120,17 +132,19 @@ trait Product
 
     /**
      * Возвращает все товары используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
     public function fetchProductList(
         array $filter = [],
         array $select = [ '*', 'PROPERTY_*' ],
         array $order = []
-    ) :\Generator {
+    ): Generator {
         $params = [
             'order'  => $order,
             'filter' => $filter,
@@ -145,11 +159,12 @@ trait Product
 
     /**
      * Пакетно добавляет товары
+     *
      * @param  array $products Массив товаров
-     * Секция товаров 'SECTION_ID'
+     *                         Секция товаров 'SECTION_ID'
      * @return array Массив Id товаров
      */
-    public function addProducts(array $products = []) :array
+    public function addProducts(array $products = []): array
     {
         // Id добавленных товаров
         $productResults = [];
@@ -167,7 +182,7 @@ trait Product
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить товары ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -180,10 +195,11 @@ trait Product
 
     /**
      * Пакетно обновляет товары
+     *
      * @param  array $products Массив товаров
      * @return array Массив Id товаров
      */
-    public function updateProducts(array $products = []) :array
+    public function updateProducts(array $products = []): array
     {
         // Id обновленных товаров
         $productResults = [];
@@ -195,7 +211,7 @@ trait Product
                 $productId = $product['ID'] ?? null;
                 if (empty($productId)) {
                     $jsonProduct = $this->toJSON($product);
-                    throw new Bitrix24Exception(
+                    throw new Bitrix24APIException(
                         "Поле 'ID' в товаре (index {$index}) на обновление отсутствует или пустое: '{$jsonProduct}'"
                     );
                 }
@@ -214,7 +230,7 @@ trait Product
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить товары ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -225,10 +241,11 @@ trait Product
 
     /**
      * Пакетно удаляет товары
+     *
      * @param  array $productIds Массив Id товаров
      * @return array Массив Id товаров
      */
-    public function deleteProducts(array $productIds = []) :array
+    public function deleteProducts(array $productIds = []): array
     {
         // Id удаленных товаров
         $productResults = [];
@@ -247,7 +264,7 @@ trait Product
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно удалить товары ({$sent}/{$received}): {$jsonResponse}"
                 );
             }

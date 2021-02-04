@@ -4,28 +4,33 @@
  * Трейт Disk. Методы для работы с диском в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.0.0
+ * @version 1.0.1
  *
  * v1.0.0 (28.10.2019) Начальная версия
- *
+ * v1.0.1 (03.02.2021) Рефакторинг
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Disk
 {
 
     /**
      * Возвращает список доступных хранилищ
-     * @param  array  $filter Параметры фильтрации
-     * @return \Generator
+     *
+     * @param  array $filter Параметры
+     *                       фильтрации
+     * @return Generator
      */
-    public function getDiskStorageList(array $filter = []) :\Generator
+    public function getDiskStorageList(array $filter = []): Generator
     {
         $params = [
             'filter'  => $filter
@@ -36,8 +41,10 @@ trait Disk
 
     /**
      * Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища
+     *
      * @param  int|string $storageId Id хранилища
-     * @param  array  $filter Параметры фильтрации
+     * @param  array      $filter    Параметры
+     *                               фильтрации
      * @return array
      */
     public function getDiskStorageChildren($storageId, array $filter = [])
@@ -55,12 +62,21 @@ trait Disk
 
     /**
      * Загружает новый файл в указанную папку на Диск
-     * @param int|string $folderId Id папки
-     * @param string $fileContent Raw данные файла
-     * @param array $data Массив параметров, описывающих файл (обязательное поле NAME - имя нового файла)
-     * @param bool $isBase64FileData Raw данные файла закодированны base64?
+     *
+     * @param  int|string $folderId         Id
+     *                                      папки
+     * @param  string     $fileContent      Raw
+     *                                      данные
+     *                                      файла
+     * @param  array      $data             Массив параметров,
+     *                                      описывающих файл
+     *                                      (обязательное поле
+     *                                      NAME - имя нового
+     *                                      файла)
+     * @param  bool       $isBase64FileData Raw данные файла
+     *                                      закодированы base64?
      * @return array
-     * @see https://dev.1c-bitrix.ru/rest_help/disk/folder/disk_folder_uploadfile.php
+     * @see    https://dev.1c-bitrix.ru/rest_help/disk/folder/disk_folder_uploadfile.php
      */
     public function uploadfileDiskFolder(
         $folderId,

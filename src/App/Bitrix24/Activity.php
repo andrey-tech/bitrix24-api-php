@@ -1,26 +1,28 @@
 <?php
 
 /**
- * Трейт Actibity. Методы для работы с делами (активностями) в системе Bitrix24.
+ * Трейт Activity. Методы для работы с делами (активностями) в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.0.0
+ * @version 1.0.1
  *
  * v1.0.0 (02.12.2019) Начальная версия
- *
+ * v1.0.1 (03.03.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
 
 trait Activity
 {
     /**
-     * Возвращает списoк названий полей активности
+     * Возвращает список названий полей активности
+     *
      * @return array
      */
     public function getActivityFields()
@@ -30,7 +32,8 @@ trait Activity
 
     /**
      * Возвращает активность по ID
-     * @param int|string $activityId ID активности
+     *
+     * @param  int|string $activityId ID активности
      * @return array|null
      */
     public function getActivity($activityId)
@@ -41,12 +44,13 @@ trait Activity
                 'id' => $activityId
             ]
         );
-        
+
         return $activity;
     }
 
     /**
      * Добавляет активность
+     *
      * @param  array $fields Список полей активности
      * @return int
      */
@@ -66,10 +70,11 @@ trait Activity
 
     /**
      * Пакетно добавляет активности
+     *
      * @param  array $activities Массив параметров активностей
      * @return array Массив id активностей
      */
-    public function addActivities(array $activities = []) :array
+    public function addActivities(array $activities = []): array
     {
         // Id добавленных активностей
         $activityResults = [];
@@ -90,7 +95,7 @@ trait Activity
             $received = count($activityResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить активности ({$sent}/{$received}): {$jsonResponse}"
                 );
             }

@@ -4,25 +4,29 @@
  * Трейт Company. Методы для работы с компанией в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * v1.0.0 (13.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлен метод getCompanyFields()
  * v1.2.0 (09.06.2020) Изменен метод getCompany(), добавлен метод fetchCompanyList()
- *
+ * v1.2.1 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Company
 {
     /**
      * Возвращает описание полей компании, в том числе пользовательских
+     *
      * @return array
      */
     public function getCompanyFields()
@@ -33,7 +37,8 @@ trait Company
     /**
      * Возвращает компанию по ID
      * @param  int|string $companyId ID компании
-     * @param  array $with Список связанных сущностей, возвращаемых вместе с компанией [ CONTACTS' ]
+     * @param  array      $with      Список связанных сущностей,
+     *                               возвращаемых вместе с компанией [ self::$WITH_CONTACTS ]
      * @return array
      */
     public function getCompany($companyId, array $with = [])
@@ -52,8 +57,11 @@ trait Company
         ];
 
         // Связанные контакты
-        if (in_array('CONTACTS', $with)) {
-            $commands['CONTACTS'] = $this->buildCommand('crm.company.contact.items.get', [ 'id' => $companyId ]);
+        if (in_array(self::$WITH_CONTACTS, $with)) {
+            $commands[self::$WITH_CONTACTS] = $this->buildCommand(
+                'crm.company.contact.items.get',
+                [ 'id' => $companyId ]
+            );
         }
 
         $result = $this->batchRequest($commands, true);
@@ -63,6 +71,7 @@ trait Company
 
     /**
      * Добавляет компанию
+     *
      * @param  array $fields Список полей компании
      * @param  array $params Параметры для компании
      * @return int
@@ -82,9 +91,14 @@ trait Company
 
     /**
      * Обновляет компанию
+     *
      * @param  int|string $companyId ID компании
-     * @param  array $fields Список полей компании
-     * @param  array $params Параметры для компании
+     * @param  array      $fields    Список
+     *                               полей
+     *                               компании
+     * @param  array      $params    Параметры
+     *                               для
+     *                               компании
      * @return int
      */
     public function updateCompany($companyId, array $fields = [], array $params = [])
@@ -103,7 +117,8 @@ trait Company
 
     /**
      * Удаляет компанию по ID
-     * @param  int|string $companyID ID компании
+     *
+     * @param  int|string $companyId ID компании
      * @return int
      */
     public function deleteCompany($companyId)
@@ -118,13 +133,15 @@ trait Company
 
     /**
      * Возвращает все компании
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/company/crm_company_list.php
+     *
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/company/crm_company_list.php
      */
-    public function getCompanyList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function getCompanyList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -137,14 +154,16 @@ trait Company
 
     /**
      * Возвращает все компании используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/company/crm_company_list.php
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/company/crm_company_list.php
      */
-    public function fetchCompanyList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function fetchCompanyList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -159,6 +178,7 @@ trait Company
 
     /**
      * Возвращает контакты, связанные с компанией по ID компании
+     *
      * @param  int|string $companyId ID компании
      * @return array
      */
@@ -174,8 +194,10 @@ trait Company
 
     /**
      * Устанавливает контакты, связанные с компанией по ID компании
+     *
      * @param  int|string $companyId ID компании
-     * @param array $contacts Массив контактов
+     * @param  array      $contacts  Массив
+     *                               контактов
      * @return array
      */
     public function setCompanyContactItems($companyId, array $contacts)
@@ -195,11 +217,14 @@ trait Company
 
     /**
      * Пакетно добавляет компании
+     *
      * @param  array $companies Массив компаний
-     * @param  array $params Параметры для компаний
+     * @param  array $params    Параметры
+     *                          для
+     *                          компаний
      * @return array Массив id компаний
      */
-    public function addCompanies(array $companies = [], array $params = []) :array
+    public function addCompanies(array $companies = [], array $params = []): array
     {
         // Id добавленных компаний
         $companyResults = [];
@@ -221,7 +246,7 @@ trait Company
             $received = count($companyResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить компании ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -234,11 +259,14 @@ trait Company
 
     /**
      * Пакетно обновляет компании
+     *
      * @param  array $companies Массив компаний
-     * @param  array $params Параметры для компаний
+     * @param  array $params    Параметры
+     *                          для
+     *                          компаний
      * @return array Массив id компаний
      */
-    public function updateCompanies(array $companies = [], array $params = []) :array
+    public function updateCompanies(array $companies = [], array $params = []): array
     {
         // Id обновленных компаний
         $companyResults = [];
@@ -250,7 +278,7 @@ trait Company
                 $companyId = $company['ID'] ?? null;
                 if (empty($companyId)) {
                     $jsonCompany = $this->toJSON($company);
-                    throw new Bitrix24Exception(
+                    throw new Bitrix24APIException(
                         "Поле 'ID' в компании (index {$index}) на обновление отсутствует или пустое: '{$jsonCompany}'"
                     );
                 }
@@ -270,7 +298,7 @@ trait Company
             $received = count($result);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить компании ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -281,10 +309,11 @@ trait Company
 
     /**
      * Пакетно удаляет компании
+     *
      * @param  array $companyIds Массив id компаний
      * @return array Массив id компаний
      */
-    public function deleteCompanies(array $companyIds = []) :array
+    public function deleteCompanies(array $companyIds = []): array
     {
         // Id удаленных компаний
         $companyResults = [];
@@ -305,7 +334,7 @@ trait Company
             $received = count($companyResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно удалить компании ({$sent}/{$received}): {$jsonResponse}"
                 );
             }

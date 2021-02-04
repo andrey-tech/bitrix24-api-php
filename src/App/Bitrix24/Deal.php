@@ -4,25 +4,28 @@
  * Трейт Deal. Методы для работы со сделкой в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлены методы getDealFields(), getDealProductRowFields()
  * v1.2.0 (09.06.2020) Изменен метод getDeal(), добавлен метод fetchDealList()
- *
+ * v1.2.1 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Deal
 {
     /**
-     * Возвращает описание полей cделки, в том числе пользовательских
+     * Возвращает описание полей сделки, в том числе пользовательских
      * @return array
      */
     public function getDealFields()
@@ -32,8 +35,10 @@ trait Deal
 
     /**
      * Возвращает сделку по ID
-     * @param int|string $dealId ID сделки
-     * @param array $with Список связанных сущностей, возвращаемых вместе со сделкой [ 'CONTACTS', 'PRODUCTS' ]
+     *
+     * @param  int|string $dealId ID сделки
+     * @param  array      $with   Список связанных сущностей,
+     *                            возвращаемых вместе со сделкой [ self::$WITH_CONTACTS, self::$WITH_PRODUCTS ]
      * @return array
      */
     public function getDeal($dealId, array $with = [])
@@ -52,13 +57,13 @@ trait Deal
         ];
 
         // Связанные товары
-        if (in_array('PRODUCTS', $with)) {
-            $commands['PRODUCTS'] = $this->buildCommand('crm.deal.productrows.get', [ 'id' => $dealId ]);
+        if (in_array(self::$WITH_PRODUCTS, $with)) {
+            $commands[self::$WITH_PRODUCTS] = $this->buildCommand('crm.deal.productrows.get', [ 'id' => $dealId ]);
         }
 
         // Связанные контакты
-        if (in_array('CONTACTS', $with)) {
-            $commands['CONTACTS'] = $this->buildCommand('crm.deal.contact.items.get', [ 'id' => $dealId ]);
+        if (in_array(self::$WITH_CONTACTS, $with)) {
+            $commands[self::$WITH_CONTACTS] = $this->buildCommand('crm.deal.contact.items.get', [ 'id' => $dealId ]);
         }
 
         $result = $this->batchRequest($commands, true);
@@ -68,6 +73,7 @@ trait Deal
 
     /**
      * Добавляет сделку
+     *
      * @param  array $fields Список полей сделки
      * @param  array $params Параметры для сделки
      * @return int
@@ -86,9 +92,13 @@ trait Deal
 
     /**
      * Обновляет сделку
+     *
      * @param  int|string $dealId ID сделки
-     * @param  array $fields Список полей сделки
-     * @param  array $params Параметры для сделки
+     * @param  array      $fields Список
+     *                            полей
+     *                            сделки
+     * @param  array      $params Параметры
+     *                            для сделки
      * @return int
      */
     public function updateDeal($dealId, array $fields = [], array $params = [])
@@ -106,6 +116,7 @@ trait Deal
 
     /**
      * Удаляет сделку по ID
+     *
      * @param  int|string $dealId ID сделки
      * @return int
      */
@@ -120,13 +131,15 @@ trait Deal
 
     /**
      * Возвращает все сделки
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_list.php
+     *
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_list.php
      */
-    public function getDealList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function getDealList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -139,14 +152,16 @@ trait Deal
 
     /**
      * Возвращает все сделки используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_list.php
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_list.php
      */
-    public function fetchDealList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function fetchDealList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -161,6 +176,7 @@ trait Deal
 
     /**
      * Возвращает контакты, связанные со сделкой по ID сделки
+     *
      * @param  int|string $dealId ID сделки
      * @return array
      */
@@ -176,8 +192,11 @@ trait Deal
 
     /**
      * Устанавливает контакты, связанные со сделкой по ID сделки
-     * @param  int|string $dealId ID сделки
-     * @param  array $contacts Массив контактов
+     *
+     * @param  int|string $dealId   ID
+     *                              сделки
+     * @param  array      $contacts Массив
+     *                              контактов
      * @return array
      */
     public function setDealContactItems($dealId, array $contacts)
@@ -196,6 +215,7 @@ trait Deal
 
     /**
      * Возвращает описание полей товарных позиций в cделке
+     *
      * @return array
      */
     public function getDealProductRowFields()
@@ -205,6 +225,7 @@ trait Deal
 
     /**
      * Возвращает товарные позиции, связанные со сделкой по ID сделки
+     *
      * @param  int|string $dealId ID сделки
      * @return array
      */
@@ -220,8 +241,11 @@ trait Deal
 
     /**
      * Устанавливает товарные позиции, связанные со сделкой по ID сделки
-     * @param  int|string $dealId ID сделки
-     * @param  array $products Массив товаров
+     *
+     * @param  int|string $dealId   ID
+     *                              сделки
+     * @param  array      $products Массив
+     *                              товаров
      * @return array
      */
     public function setDealProductRows($dealId, array $products)
@@ -241,11 +265,13 @@ trait Deal
 
     /**
      * Пакетно добавляет сделки c товарными позициями
-     * @param  array $deals Массив сделок (поля связанных сущностей [ 'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
+     *
+     * @param  array $deals  Массив сделок (поля связанных сущностей [
+     *                       'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
      * @param  array $params Параметры сделок
      * @return array Массив id сделок
      */
-    public function addDeals(array $deals = [], array $params = []) :array
+    public function addDeals(array $deals = [], array $params = []): array
     {
         // Id созданных сделок
         $dealResults = [];
@@ -267,7 +293,7 @@ trait Deal
             $received = count($dealResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить сделки ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -276,9 +302,10 @@ trait Deal
             $commandParams = [];
             foreach ($dealsChunk as $index => $deal) {
                 // Пропускаем сделки без поля PRODUCTS или без товаров
-                if (! isset($deal['PRODUCTS']) ||
-                    ! is_array($deal['PRODUCTS']) ||
-                    count($deal['PRODUCTS']) == 0
+                if (
+                    ! isset($deal['PRODUCTS'])
+                    || ! is_array($deal['PRODUCTS'])
+                    || count($deal['PRODUCTS']) == 0
                 ) {
                     continue;
                 }
@@ -296,7 +323,7 @@ trait Deal
             $received = count($productResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить товары к сделкам ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -310,13 +337,18 @@ trait Deal
 
     /**
      * Пакетно обновляет сделки c товарными позициями
-     * @param  array $deals Массив сделок (поля связанных сущностей [ 'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
-     * Если в сделке много контактов, а в запросе на обновление сделки передано поле CONTACT_ID,
-     * то после обновления в сделке остается только 1 контакт или 0 контактов, если CONTACT_ID пуст.
+     *
+     * @param array $deals  Массив сделок (поля связанных сущностей [
+     *                      'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ]) Если в сделке много
+     *                      контактов, а в запросе на обновление сделки
+     *                      передано поле CONTACT_ID, то после обновления в
+     *                      сделке остается только 1 контакт или 0
+     *                      контактов, если CONTACT_ID пуст.
+     *
      * @param  array $params Параметры сделок
      * @return array Массив id сделок
      */
-    public function updateDeals(array $deals = [], array $params = []) :array
+    public function updateDeals(array $deals = [], array $params = []): array
     {
         // Id обновленных сделок
         $dealResults = [];
@@ -329,7 +361,7 @@ trait Deal
                 $dealId = $deal['ID'] ?? null;
                 if (empty($dealId)) {
                     $jsonDeal = $this->toJSON($deal);
-                    throw new Bitrix24Exception(
+                    throw new Bitrix24APIException(
                         "Поле 'ID' в сделке (index {$index}) на обновление отсутствует или пустое: '{$jsonDeal}'"
                     );
                 }
@@ -349,7 +381,7 @@ trait Deal
             $received = count($dealResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить сделки ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -358,8 +390,9 @@ trait Deal
             $commandParams = [];
             foreach ($dealsChunk as $index => $deal) {
                 // Пропускаем сделки без поля PRODUCTS
-                if (! isset($deal['PRODUCTS']) ||
-                    ! is_array($deal['PRODUCTS'])
+                if (
+                    ! isset($deal['PRODUCTS'])
+                    || ! is_array($deal['PRODUCTS'])
                 ) {
                     continue;
                 }
@@ -380,7 +413,7 @@ trait Deal
             $received = count($productResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить товары в сделках ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -391,10 +424,11 @@ trait Deal
 
     /**
      * Пакетно удаляет сделки
+     *
      * @param  array $dealIds Массив id сделок
      * @return array Массив id сделок
      */
-    public function deleteDeals(array $dealIds = []) :array
+    public function deleteDeals(array $dealIds = []): array
     {
         // Id удаленных сделок
         $dealResults = [];
@@ -415,7 +449,7 @@ trait Deal
             $received = count($dealResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно удалить сделки ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -428,14 +462,20 @@ trait Deal
 
     /**
      * Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить)
-     * @param int|string $dealId Id Cделки
-     * @param int|string $userFieldId Id НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX')
-     * @param string $fileName Имя файла
-     * @param string $fileContent Raw данные файла
-     * @param bool $isBase64FileData Raw данные файла закодированны base64?
-     * @return int
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      *
+     * @param  int|string $dealId           Id
+     *                                      Cделки
+     * @param  int|string $userFieldId      Id НЕ множественного пользовательского
+     *                                      поля в сделке ('UF_CRM_XXXXXXXXXX')
+     * @param  string     $fileName         Имя
+     *                                      файла
+     * @param  string     $fileContent      Raw
+     *                                      данные
+     *                                      файла
+     * @param  bool       $isBase64FileData Raw данные файла
+     *                                      закодированы base64?
+     * @return int
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      */
     public function setDealFile(
         $dealId,
@@ -460,13 +500,19 @@ trait Deal
 
     /**
      * Устанавливает файлы во множественное пользовательское поле типа файл (файлы можно удалить)
-     * @param int|string $dealId Id Cделки
-     * @param int|string $userFieldId Id множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX')
-     * @param array $files Массив параметров файлов ([ [  <Имя файла>, <Raw данные файла> ], ... ]) (пустой массив для удаления всех файлов).
-     * @param bool $isBase64FileData Raw данные файла закодированны base64?
-     * @return int
-     * @see https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      *
+     * @param  int|string $dealId           Id
+     *                                      Cделки
+     * @param  int|string $userFieldId      Id множественного пользовательского
+     *                                      поля в сделке ('UF_CRM_XXXXXXXXXX')
+     * @param  array      $files            Массив параметров файлов ([ [  <Имя файла>,
+     *                                      <Raw данные файла> ], ... ])
+ (пустой массив
+     *                                      для удаления всех файлов).
+     * @param  bool       $isBase64FileData Raw данные файла
+     *                                      закодированны base64?
+     * @return int
+     * @see    https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      */
     public function setDealFiles(
         $dealId,

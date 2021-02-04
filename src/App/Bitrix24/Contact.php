@@ -4,21 +4,24 @@
  * Трейт Contact. Методы для работы с контактом в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.1
+ * @version 1.2.2
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлен метод getContactFields()
  * v1.2.0 (09.06.2020) Изменен метод getContact(), добавлен метод fetchContactList()
  * v1.2.1 (11.06.2020) Исправлен метод deleteContacts()
- *
+ * v1.2.2 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Contact
 {
@@ -33,8 +36,10 @@ trait Contact
 
     /**
      * Возвращает контакт по ID
+     *
      * @param  int|string $contactId ID контакта
-     * @param array $with Список связанных сущностей, возвращаемых вместе с контактом [ 'COMPANIES' ]
+     * @param  array      $with      Список связанных сущностей,
+     *                               возвращаемых вместе с контактом [ self::$WITH_COMPANIES ]
      * @return array
      */
     public function getContact($contactId, array $with = [])
@@ -53,8 +58,11 @@ trait Contact
         ];
 
         // Связанные компании
-        if (in_array('COMPANIES', $with)) {
-            $commands['COMPANIES'] = $this->buildCommand('crm.contact.company.items.get', [ 'id' => $contactId ]);
+        if (in_array(self::$WITH_COMPANIES, $with)) {
+            $commands[self::$WITH_COMPANIES] = $this->buildCommand(
+                'crm.contact.company.items.get',
+                [ 'id' => $contactId ]
+            );
         }
 
         $result = $this->batchRequest($commands, true);
@@ -64,6 +72,7 @@ trait Contact
 
     /**
      * Добавляет контакт
+     *
      * @param  array $fields Список полей контакта
      * @param  array $params Параметры для контакта
      * @return int
@@ -83,9 +92,14 @@ trait Contact
 
     /**
      * Обновляет контакт
+     *
      * @param  string|int $contactId ID контакта
-     * @param  array $fields Список полей контакта
-     * @param  array $params Список параметров контакта
+     * @param  array      $fields    Список
+     *                               полей
+     *                               контакта
+     * @param  array      $params    Список
+     *                               параметров
+     *                               контакта
      * @return int
      */
     public function updateContact($contactId, array $fields = [], array $params = [])
@@ -104,6 +118,7 @@ trait Contact
 
     /**
      * Удаляет контакт по ID
+     *
      * @param  int|string $contactId ID контакта
      * @return int
      */
@@ -119,12 +134,14 @@ trait Contact
 
     /**
      * Возвращает все контакты
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
-    public function getContactList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function getContactList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -137,13 +154,15 @@ trait Contact
 
     /**
      * Возвращает все контакты используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
-     * @param array $filter Параметры фильтрации
-     * @param array $order Параметры сортировки
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
-    public function fetchContactList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function fetchContactList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -158,6 +177,7 @@ trait Contact
 
     /**
      * Возвращает компании, связанные с контактом по ID контакта
+     *
      * @param  int|string $contactId ID контакта
      * @return array
      */
@@ -173,8 +193,10 @@ trait Contact
 
     /**
      * Устанавливает компании, связанные с контактом по ID контакта
+     *
      * @param  int|string $contactId ID контакта
-     * @param array $companies Массив компаний
+     * @param  array      $companies Массив
+     *                               компаний
      * @return array
      */
     public function setContactCompanyItems($contactId, array $companies)
@@ -194,11 +216,14 @@ trait Contact
 
     /**
      * Пакетно добавляет контакты
+     *
      * @param  array $contacts Массив контактов (поля связанных сущностей [ 'COMPANY_ID' ])
-     * @param  array $params Параметры для контактов
+     * @param  array $params   Параметры
+     *                         для
+     *                         контактов
      * @return array Массив Id контактов
      */
-    public function addContacts(array $contacts = [], array $params = []) :array
+    public function addContacts(array $contacts = [], array $params = []): array
     {
         // Id добавленных контактов
         $contactResults = [];
@@ -219,7 +244,7 @@ trait Contact
             $received = count($result);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить контакты ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -232,11 +257,14 @@ trait Contact
 
     /**
      * Пакетно обновляет контакты
+     *
      * @param  array $contacts Массив контактов (поля связанных сущностей [ 'COMPANY_ID' ])
-     * @param  array $params Параметры для контактов
+     * @param  array $params   Параметры
+     *                         для
+     *                         контактов
      * @return array Массив Id контактов
      */
-    public function updateContacts(array $contacts = [], array $params = []) :array
+    public function updateContacts(array $contacts = [], array $params = []): array
     {
         // Id обновленных контактов
         $contactResults = [];
@@ -248,7 +276,7 @@ trait Contact
                 $contactId = $contact['ID'] ?? null;
                 if (empty($contactId)) {
                     $jsonContact = $this->toJSON($contact);
-                    throw new Bitrix24Exception(
+                    throw new Bitrix24APIException(
                         "Поле 'ID' в контакте (index {$index}) на обновление отсутствует или пустое: '{$jsonContact}'"
                     );
                 }
@@ -268,7 +296,7 @@ trait Contact
             $received = count($result);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить контакты ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -279,10 +307,11 @@ trait Contact
 
     /**
      * Пакетно удаляет контакты
+     *
      * @param  array $contactIds Массив Id контактов
      * @return array Массив Id контактов
      */
-    public function deleteContacts(array $contactIds = []) :array
+    public function deleteContacts(array $contactIds = []): array
     {
         // Id удаленных контактов
         $contactResults = [];
@@ -301,7 +330,7 @@ trait Contact
             $received = count($result);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно удалить контакты ({$sent}/{$received}): {$jsonResponse}"
                 );
             }

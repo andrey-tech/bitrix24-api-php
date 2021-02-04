@@ -1,9 +1,9 @@
 # Bitrix24 API PHP Wrapper
 
 ![Bitrix24 logo](./assets/bitrix24-logo.png)  
-[![Latest Stable Version](https://poser.pugx.org/andrey-tech/bitrix24-api-php/v)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
-[![Total Downloads](https://poser.pugx.org/andrey-tech/bitrix24-api-php/downloads)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
-[![License](https://poser.pugx.org/andrey-tech/bitrix24-api-php/license)](//packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![Latest Stable Version](https://poser.pugx.org/andrey-tech/bitrix24-api-php/v)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![Total Downloads](https://poser.pugx.org/andrey-tech/bitrix24-api-php/downloads)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![License](https://poser.pugx.org/andrey-tech/bitrix24-api-php/license)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
 
 Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
 троттлингом запросов и логированием в файл.
@@ -17,7 +17,7 @@
 - [Класс `\App\Bitrix24\Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
-- [Методы работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
+- [Методы для работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
     - [Методы работы со сделками](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с контактами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с компаниями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8)
@@ -44,10 +44,10 @@
 <a id="%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></a>
 ## Требования
 
-- PHP >= 7.0.
+- PHP >= 7.0;
 - класс [`\App\HTTP`](https://github.com/andrey-tech/http-client-php) - НТТР(S) клиент с троттлингом запросов;
-- класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) - логгер, cохраняющий отладочную информацию в файл;
-- Произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
+- класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) - логгер, позволяющий сохранять отладочную информацию в файл;
+- произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
 
 
 <a id="%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0"></a>
@@ -55,13 +55,13 @@
 
 Установка через composer:
 ```
-$ composer require andrey-tech/bitrix24-api-php:"^1.4"
+$ composer require andrey-tech/bitrix24-api-php:"^1.5"
 ```
 
 или добавить
 
 ```
-"andrey-tech/bitrix24-api-php": "^1.4"
+"andrey-tech/bitrix24-api-php": "^1.5"
 ```
 
 в секцию require файла composer.json.
@@ -110,16 +110,22 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.4"
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B"></a>
 ### Дополнительные параметры
 
-Дополнительные параметры доступны через публичные свойства объекта класса `\App\Bitrix24\Bitrix24API`:
+Дополнительные параметры настройки доступны через публичные статические и нестатические свойства класса `\App\Bitrix24\Bitrix24API`:
 
-Свойство                | По умолчанию       | Описание
+Нестатическое свойство  | По умолчанию       | Описание
 ----------------------- | ------------------ | --------
 `$batchSize`            | 50                 | Устанавливает количество команд в одном пакете запросов (batch)
-`$logger`               | null               | Хранит объект класса `\App\DebugLogger`, выполняющего логирование запросов и ответов к API в файл.
+`$logger`               | null               | Хранит объект класса `\App\DebugLogger`, выполняющего логирование запросов и ответов к API в файл
 `$http`                 | `object \App\HTTP` | Хранит объект класса `\App\HTTP`, отправляющего запросы к API
 
-<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124"></a>
-## Методы работы с сущностями Битрикс24
+Статическое свойство    | По умолчанию       | Описание
+----------------------- | ------------------ | --------
+`$WITH_CONTACTS`        | CONTACTS           | Имя поля для массива возвращаемых связанных сущностей типа контакт
+`$WITH_COMPANIES`       | COMPANIES          | Имя поля для массива возвращаемых связанных сущностей типа компания
+`$WITH_PRODUCTS`        | PRODUCTS           | Имя поля для массива возвращаемых связанных сущностей типа товар
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124"></a>
+## Методы для работы с сущностями Битрикс24
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8"></a>
 ### Методы работы со сделками
@@ -136,28 +142,28 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.4"
      Загружает все сделки с возможностью фильтрации, сортировки и выборки полей.  
      Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
 - `addDeals(array $deals = [], array $params = []) :array`  
-   Пакетно добавляет сделки со связанными товарными позициями и возвращает массив ID сделок.
+   Пакетно добавляет сделки со связанными товарными позициями, возвращает массив ID сделок.
 - `updateDeals(array $deals = [], array $params = []) :array`  
-    Пакетно обновляет сделки со связанными товарными позициями и возвращает массив ID сделок.
-- `deleteDeals(array $dealIds = []) :array` Пакетно удаляет сделки и возвращает массив ID сделок.
+    Пакетно обновляет сделки со связанными товарными позициями, возвращает массив ID сделок.
+- `deleteDeals(array $dealIds = []) :array` Пакетно удаляет сделки, возвращает массив ID сделок.
 - `setDealFile($dealId, $userFieldId, string $fileName, string $fileContent, bool $isBase64FileData = true) :int`  
     Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить) и возвращает ID сделки.
 - `setDealFiles($dealId, $userFieldId, array $files = [], bool $isBase64FileData = true) :int`  
     Устанавливает файлы во множественное пользовательское поле типа файл (файлы можно удалить) и возвращает ID сделки.
 - `getDealContactItems($dealId) :array` Возвращает массив параметров контактов, связанных со сделкой.
 - `setDealContactItems($dealId, array $contacts) :array` Устанавливает контакты, связанные со сделкой.
-- `setDealProductRows($dealId, array $products) :array` Устанавливает товарые позиции, связанные со сделкой.
+- `setDealProductRows($dealId, array $products) :array` Устанавливает товарные позиции, связанные со сделкой.
 - `getDealProductRows($dealId) :array` Возвращает массив параметров товарных позиций, связанных со сделкой.
 - `getDealProductRowFields() :array` Возвращает описание полей товарных позиций.
-- `getDealFields() :array` Возвращает описание полей cделки, в том числе пользовательских.
+- `getDealFields() :array` Возвращает описание полей сделки, в том числе пользовательских.
 
 Параметры методов:
 
 + `$dealId` - ID сделки;
 + `$dealIds` - массив ID сделок;
-+ `$with` - имена связанных сущностей, возвращаемых вместе со сделкой;
-    * `CONTACTS` - контакты (возвращаются в виде массива в одноименном поле);
-    * `PRODUCTS` - товарные позиции (возвращаются в виде массива в одноименном поле);
++ `$with` - имена связанных сущностей, возвращаемых вместе со сделкой:
+    * `\App\Bitrix24\Bitrix24API::$WITH_CONTACTS` - контакты (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$WITH_CONTACTS`);
+    * `\App\Bitrix24\Bitrix24API::$WITH_PRODUCTS` - товарные позиции (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$PRODUCTS`);
 - `$fields` - набор полей сделки;
 - `$params` - набор параметров сделки;
 - `$filter` - параметры фильтрации;
@@ -165,12 +171,14 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.4"
 - `$select` - параметры выборки полей;
 - `$userFieldId` ID НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX');
 - `$files` - массив параметров файлов ([ [  < Имя файла >, < RAW данные файла > ], ... ]) (пустой массив для удаления всех файлов);
-- `$isBase64FileData` - RAW данные файла закодированны BASE64;
+- `$isBase64FileData` - RAW данные файла закодированы в BASE64?;
 - `$contacts` - массив параметров контактов;
 - `$products` - массив параметров товарных позиций.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -202,8 +210,13 @@ try {
         'TITLE' => 'Новая сделка №12'
     ]);
 
+
+    // При необходимости, изменяем значение по умолчанию 'PRODUCTS' на '_PRODUCTS' для имени поля
+    // со списком товарных позиций, возвращаемых вместе со сделкой
+    Bitrix24API::$WITH_PRODUCTS = '_PRODUCTS';
+
     // Загружаем сделку по ID вместе со связанными товарами и контактами одним запросом
-    $deal = $bx24->getDeal($dealId, [ 'PRODUCTS', 'CONTACTS' ]);
+    $deal = $bx24->getDeal($dealId, [ Bitrix24API::$WITH_PRODUCTS, Bitrix24API::$WITH_CONTACTS ]);
     print_r($deal);
 
     // Удаляем существующую сделку
@@ -242,7 +255,9 @@ try {
     // Пакетно удаляем сделки
     $bx24->deleteDeals($dealIds);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -273,7 +288,7 @@ try {
 + `$contaxctId` - ID контакта;
 + `$contactIds` - массив ID сделок;
 + `$with` - имена связанных сущностей, возвращаемых вместе с контактом:
-    * `COMPANIES` - компании (возвращаются в виде массива в одноименном поле);
+    * `\App\Bitrix24\Bitrix24API::$WITH_COMPANIES` - компании (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$WITH_COMPANIES`);
 - `$fields` - набор полей сделки;
 - `$params` - набор параметров сделки;
 - `$filter` - параметры фильтрации;
@@ -283,7 +298,9 @@ try {
 - `$companies` - массив параметров компаний.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -311,7 +328,7 @@ try {
     ]);
 
     // Загружаем контакт по ID вместе со связанными компаниями
-    $contact = $bx24->getContact($contactId, [ 'COMPANIES' ]);
+    $contact = $bx24->getContact($contactId, [ Bitrix24API::$WITH_COMPANIES ]);
     print_r($contact);
 
     // Удаляем существующий контакт
@@ -345,7 +362,9 @@ try {
     // Пакетно удаляем контакты
     $bx24->deleteContacts($contactIds);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -374,6 +393,8 @@ try {
 
 - `$companyId` - ID компании;
 - `$companyIds` - массив ID компаний;
++ `$with` - имена связанных сущностей, возвращаемых вместе с компанией:
+    * `\App\Bitrix24\Bitrix24API::$WITH_CONTACTS` - контакты (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$WITH_CONTACTS`);
 + `$filter` - параметры фильтрации;
 + `$order` - параметры сортировки;
 + `$select` - параметры выборки полей;
@@ -381,7 +402,9 @@ try {
 - `$companies` - массив параметров компаний.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -406,7 +429,7 @@ try {
     ]);
 
     // Загружаем компанию по ID вместе со связанными контактами
-    $company = $bx24->getCompany($companyId, [ 'CONTACTS' ]);
+    $company = $bx24->getCompany($companyId, [ Bitrix24API::$WITH_CONTACTS ]);
     print_r($company);
 
     // Удаляем существующую компанию
@@ -430,7 +453,9 @@ try {
     // Пакетно удаляем компании
     $bx24->deleteCompanies($companyIds);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -454,7 +479,9 @@ try {
 + `$select` - параметры выборки полей.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -469,7 +496,9 @@ try {
         }
     }
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -504,7 +533,9 @@ try {
 + `$products` - массив наборов полей товара.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -559,7 +590,9 @@ try {
         ]
     ]);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -593,7 +626,9 @@ try {
 + `$order` - параметры сортировки.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -632,7 +667,9 @@ try {
         ]
     ]);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -652,13 +689,14 @@ try {
 + `$userId` - ID пользователя;
 + `$filter` - параметры фильтрации;
 + `$order` - направление сортировки (ASC|DESC);
-+ `$sort` -  поле, по которому сортируются результаты;
++ `$sort` - поле, по которому сортируются результаты;
 + `$select` - параметры выборки полей;
 + `$adminMode` - включает режим администратора для получения данных о любых пользователях.
 
-
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -681,7 +719,9 @@ try {
         }
     }
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -704,7 +744,9 @@ try {
 + `$tasks` - массив наборов полей задач.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -720,14 +762,16 @@ try {
         'TITLE'           => 'Новая задача №123', // Название задачи
         'DESCRIPTION'     => 'Описание задачи', // Описание задачи
         'RESPONSIBLE_ID'  => 43242, // ID ответственного пользователя
-        'UF_CRM_TASK'     => [ 'D_' . 38492 ], // Привязка задачи к сделке
+        'UF_CRM_TASK'     => [ 'D_' . 38492 ], // Привязка задачи к сделке ('D_' - сущность сделка, 38492 - ID сделки)
         'START_DATE_PLAN' => '09.08.2005', // Плановая дата начала.
         'END_DATE_PLAN'   => '09.09.2005', // Плановая дата завершения
         'DEADLINE'        => '2005-09-09T18:31:42+03:30' // Крайний срок
     ]);
     print_r($taskId);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -749,7 +793,9 @@ try {
 + `$activities` - массив наборов полей дел.
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -786,7 +832,9 @@ try {
     $activity = $bx24->getActivity($activityId);
     print_r($activity);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -797,9 +845,9 @@ try {
 Методы для работы с Диском находятся в трейте `\App\Bitrix24\Disk`:
 
 -  `getDiskStorageList(array $filter = []) :\Generator`  
-    Загружает список доступных хранилищ c возможностью фильтрации.
+    Загружает список доступных хранилищ с возможностью фильтрации.
 - `getDiskStorageChildren($storageId, array $filter = []) :array`  
-    Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища c возможностью фильтрации.
+    Возвращает список файлов и папок, которые находятся непосредственно в корне хранилища с возможностью фильтрации.
 - `uploadfileDiskFolder($folderId, string $fileContent, array $data, bool $isBase64FileData = true) :array`
     Загружает новый файл в указанную папку на Диск.
 
@@ -811,11 +859,12 @@ try {
 + `$folderId` - ID папки;
 + `$fileContent` - RAW данные файла;
 + `$data` - набор параметров, описывающих файл (обязательное поле NAME - имя нового файла);
-+ `$isBase64FileData` - RAW данные файла закодированны BASE64.
-
++ `$isBase64FileData` - RAW данные файла закодированы в BASE64?
 
 ```php
-use \App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
 
 try {
 
@@ -823,7 +872,7 @@ try {
     $bx24 = new Bitrix24API($webhookURL);
 
     // Загружаем список доступных хранилищ
-    $generator = $bitrix->getDiskStorageList();
+    $generator = $bx24->getDiskStorageList();
     foreach ($generator as $storages) {
         foreach ($storages as $storage) {
             print_r($storage);
@@ -831,7 +880,7 @@ try {
     }
 
     // Загружаем список файлов и папок, которые находятся непосредственно в корне хранилища
-    $files = $bitrix->getDiskStorageChildren($storageId = 2);
+    $files = $bx24->getDiskStorageChildren($storageId = 2);
     foreach ($files as $file) {
         print_r($file);
     }
@@ -844,7 +893,9 @@ try {
         $isBase64FileData = false
     );
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -886,8 +937,10 @@ try {
 #### Примеры
 
 ```php
-use \App\Bitrix24\Bitrix24API;
-use \App\HTTP;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
+use App\HTTP;
 
 try {
     $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
@@ -905,7 +958,9 @@ try {
     // Получаем компанию по ID
     $results = $bx24->getCompany(20);
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -965,7 +1020,7 @@ X-Bitrix-LB: lb-ru-04
 #### Методы класса
 
 - `static instance(string $logFileName = 'debug.log') :\App\DebugLogger`  
-    Возвращает единственнный объект класса для заданного лог-файла `$logFileName`.
+    Возвращает единственный объект класса для заданного лог-файла `$logFileName`.
     + `$logFileName` - имя лог-файла.
 - `save(mixed $info, $object = null) :void` Сохраняет подлежащую логированию информацию в файл.
     + $info - строка, массив или объект для логирования;
@@ -985,14 +1040,16 @@ X-Bitrix-LB: lb-ru-04
 #### Примеры
 
 ```php
-use \App\Bitrix24\Bitrix24API;
-use \App\DebugLogger;
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+use App\AppException;
+use App\DebugLogger;
 
 try {
     $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
     $bx24 = new Bitrix24API($webhookURL);
 
-    $logFileName = 'debug_bitrix24api.log'
+    $logFileName = 'debug_bitrix24api.log';
     $bx24->logger = DebugLogger::instance($logFileName);
 
     // Устанавливаем каталог для сохранения лог файлов
@@ -1004,7 +1061,9 @@ try {
     // Загружаем все компании
     $bx24->fetchCompanyList();
 
-} catch (\App\Bitrix24\Bitrix24APIException | \App\AppException $e) {
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (AppException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -1054,7 +1113,7 @@ try {
 <a id="%D0%90%D0%B2%D1%82%D0%BE%D1%80"></a>
 ## Автор
 
-© 2019-2020 andrey-tech
+© 2019-2021 andrey-tech
 
 <a id="%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F"></a>
 ## Лицензия

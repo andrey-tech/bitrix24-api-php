@@ -1,32 +1,36 @@
 <?php
+
 /**
  * Класс Bitrix24API. Выполняет запросы к REST API системы Битрикс24 с использованием механизма входящих вебхуков.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.3.2
+ * @version 1.3.3
  *
  * v1.0.0 (13.10.2019) Начальный релиз
  * v1.1.0 (31.10.2019) Добавлен метод getLastResponse()
  * v1.2.0 (04.11.2019) Добавлено свойство $debugLevel
  * v1.2.1 (07.11.2019) Имя файла лога перенесено в свойство $debugFileName
  * v1.2.2 (09.11.2019) В метод to JSON добавлен параметр prettyPrint; добавлено свойство $enableDebugLog
- * v1.2.3 (11.11.2019) Удалено свойствo $enableDebugLog
- * v1.2.4 (17.11.2019) Изменен формат логгирования запросов и ответов
+ * v1.2.3 (11.11.2019) Удалено свойство $enableDebugLog
+ * v1.2.4 (17.11.2019) Изменен формат логирования запросов и ответов
  * v1.2.5 (25.11.2019) Теперь свойства debugLogger и http публичные
  * v1.2.6 (03.12.2019) Теперь метод request() публичный
  * v1.3.0 (09.06.2020) Изменен метод логирования запросов и ответов, добавлен метод fetchList()
  * v1.3.1 (15.06.2020) Исправлено логирование ответа
  * v1.3.2 (23.01.2021) Исправлены сообщения об ошибках
- *
+ * v1.4.0 (03.02.2021) Добавлены свойства класса, задающие имена полей связанных сущностей
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use App\HTTP;
+use Generator;
 
 class Bitrix24API
 {
@@ -41,38 +45,62 @@ class Bitrix24API
     use Activity;
     use Task;
 
-   /**
+    /**
+     * Имя поля для массива связанных сущностей типа контакт
+     * @var string
+     */
+    public static $WITH_CONTACTS = 'CONTACTS';
+
+    /**
+     * Имя поля для массива связанных сущностей типа компания
+     * @var string
+     */
+    public static $WITH_COMPANIES = 'COMPANIES';
+
+    /**
+     * Имя поля для массива связанных сущностей типа товар
+     * @var string
+     */
+    public static $WITH_PRODUCTS = 'PRODUCTS';
+
+    /**
      * Объект класса, выполняющего логирование
+     *
      * @param object
      */
     public $logger;
 
     /**
      * Количество команд в одном пакете запросов (batch)
+     *
      * @var integer
      */
     public $batchSize = 50;
- 
+
     /**
      * Объект класса \App\HTTP
+     *
      * @param object
      */
     public $http;
 
     /**
      * URL входящего вебхука
+     *
      * @var string
      */
     protected $webhookUrl;
 
     /**
      * Последний ответ от API Битрикс24
+     *
      * @var array
      */
     protected $lastResponse;
 
     /**
      * Конструктор
+     *
      * @param string $webhookUrl URL входящего вебхука
      */
     public function __construct(string $webhookUrl)
@@ -80,7 +108,7 @@ class Bitrix24API
         // Нормализация для слеша в конце URL
         $this->webhookUrl = rtrim($webhookUrl, '/');
 
-        $this->http = new \App\HTTP();
+        $this->http = new HTTP();
         // Не более 2-х запросов в секунду (https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php)
         $this->http->throttle = 2;
         $this->http->useCookies = false;
@@ -88,6 +116,7 @@ class Bitrix24API
 
     /**
      * Возвращает последний ответ от API Битрикс24
+     *
      * @return mixed
      */
     public function getLastResponse()
@@ -97,13 +126,14 @@ class Bitrix24API
 
     /**
      * Отправляет запрос в API системы Битрикс24
+     *
      * @param  string $function Имя метода (функции) запроса
      * @param  array  $params   Параметры запроса
-     * @return array
+     * @return array|null
      */
     public function request(string $function, array $params = [])
     {
-        $function = $function . '.json';
+        $function .= '.json';
         $url = $this->webhookUrl . '/' . $function;
 
         // Логирование запроса
@@ -114,7 +144,7 @@ class Bitrix24API
 
         // POST запрос
         $this->lastResponse = $this->http->request($url, 'POST', $params);
-     
+
         // Логирование ответа
         if (isset($this->logger)) {
             $jsonResponse = $this->toJSON($this->lastResponse, true);
@@ -143,12 +173,14 @@ class Bitrix24API
 
     /**
      * Возвращает список всех сущностей
+     *
      * @param  string $function Имя метода (функции) запроса
-     * @param array $params Параметры запроса
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/general/lists.php
+     * @param  array  $params   Параметры
+     *                          запроса
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/general/lists.php
      */
-    public function getList(string $function, array $params = []) :\Generator
+    public function getList(string $function, array $params = []): Generator
     {
         do {
             // До 50 штук на 1 запрос
@@ -160,7 +192,7 @@ class Bitrix24API
             $start = $params['start'] ?? 0;
             if ($this->logger) {
                 $this->logger->save(
-                    "По запросу (getList) {$function} (start: {$start}) получено сущностей: " . count($result) . 
+                    "По запросу (getList) {$function} (start: {$start}) получено сущностей: " . count($result) .
                     ", всего существует: " . $this->lastResponse['total'],
                     $this
                 );
@@ -178,19 +210,20 @@ class Bitrix24API
 
     /**
      * Возвращает список всех сущностей используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
      * @param  string $function Имя метода (функции) запроса
-     * @param array $params Параметры запроса
-     * @return object \Generator
-     * @see https://dev.1c-bitrix.ru/rest_help/general/lists.php
+     * @param  array  $params   Параметры
+     *                          запроса
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/general/lists.php
      */
-    public function fetchList(string $function, array $params = []) :\Generator
+    public function fetchList(string $function, array $params = []): Generator
     {
         $params['order']['ID'] = 'ASC';
         $params['filter']['>ID'] = 0;
         $params['start'] = -1;
 
-        $counter = 0;
         $totalCounter = 0;
 
         do {
@@ -204,7 +237,8 @@ class Bitrix24API
             $totalCounter += $resultCounter;
             if ($this->logger) {
                 $this->logger->save(
-                    "По запросу (fetchList) {$function} получено сущностей: {$resultCounter}, всего получено: {$totalCounter}",
+                    "По запросу (fetchList) {$function} получено сущностей: {$resultCounter}, " .
+                    "всего получено: {$totalCounter}",
                     $this
                 );
             }
@@ -221,10 +255,15 @@ class Bitrix24API
 
     /**
      * Отправляет пакет запросов в API системы Битрикс24
-     * @param  array  $commands Пакет команд
-     * @param  bool $halt Определяет прерывать ли последовательность запросов в случае ошибки (0|1, true|false)
-     * @return array
-     * @see https://dev.1c-bitrix.ru/rest_help/general/batch.php
+     *
+     * @param  array $commands Пакет
+     *                         команд
+     * @param  bool  $halt     Определяет прерывать
+     *                         ли последовательность
+     *                         запросов в случае
+     *                         ошибки (0|1, true|false)
+     * @return array|null
+     * @see    https://dev.1c-bitrix.ru/rest_help/general/batch.php
      */
     public function batchRequest(array $commands, $halt = true)
     {
@@ -249,11 +288,14 @@ class Bitrix24API
 
     /**
      * Формирует массив одинаковых команд для метода пакетных запросов batchRequest()
+     *
      * @param  string $function Имя метода (функции) запроса
-     * @param array $items Массив полей запросов
+     * @param  array  $items    Массив
+     *                          полей
+     *                          запросов
      * @return array
      */
-    public function buildCommands(string $function, array $items) :array
+    public function buildCommands(string $function, array $items): array
     {
         $commands = [];
         foreach ($items as $fields) {
@@ -265,24 +307,28 @@ class Bitrix24API
 
     /**
      * Формирует строку одной команды для пакета запросов
+     *
      * @param  string $function Имя метода (функции) запроса
-     * @param array $params Массив параметров команды
+     * @param  array  $params   Массив
+     *                          параметров
+     *                          команды
      * @return string
-     * @see https://dev.1c-bitrix.ru/rest_help/general/batch.php
+     * @see    https://dev.1c-bitrix.ru/rest_help/general/batch.php
      */
-    public function buildCommand(string $function, array $params) :string
+    public function buildCommand(string $function, array $params): string
     {
         return $function . '?' . http_build_query($params);
     }
 
     /**
      * Создает и возвращает результат со связанными сущностями
+     *
      * @param  array  $result Результат
      * @param  string $base   Имя базовой сущности
      * @param  array  $with   Имена связанных сущностей
      * @return array
      */
-    protected function createResultWith(array $result, string $base, array $with) :array
+    protected function createResultWith(array $result, string $base, array $with): array
     {
         $resultWith = $result[ $base ];
         foreach ($with as $name) {
@@ -293,13 +339,16 @@ class Bitrix24API
 
     /**
      * Преобразует данные в строку JSON для сообщений об ошибке или лога
-     * @param mixed $data Данные для преобразования
-     * @param bool $prettyPrint Включает pretty print для JSON
+     *
+     * @param  mixed $data        Данные для
+     *                            преобразования
+     * @param  bool  $prettyPrint Включает pretty print
+     *                            для JSON
      * @return string
      */
-    protected function toJSON($data, bool $prettyPrint = false) :string
+    protected function toJSON($data, bool $prettyPrint = false): string
     {
-        $encodeOptions = JSON_UNESCAPED_UNICODE|JSON_PARTIAL_OUTPUT_ON_ERROR;
+        $encodeOptions = JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
         if ($prettyPrint) {
             $encodeOptions |= JSON_PRETTY_PRINT;

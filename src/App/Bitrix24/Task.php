@@ -4,23 +4,25 @@
  * Трейт Task. Методы для работы с задачами в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.0.0
+ * @version 1.0.1
  *
  * v1.0.0 (02.12.2019) Начальная версия
- *
+ * v1.0.1 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
 
 trait Task
 {
     /**
-     * Возвращает списoк названий полей задачи
+     * Возвращает список названий полей задачи
+     *
      * @return array
      */
     public function getTaskFields()
@@ -30,22 +32,28 @@ trait Task
 
     /**
      * Возвращает задачу по ID
-     * @param int|string $taskId ID задачи
-     * @param array $select Параметры выборки
+     *
+     * @param  int|string $taskId ID задачи
+     * @param  array      $select Параметры
+     *                            выборки
      * @return array|null
      */
     public function getTask($taskId, array $select = [])
     {
-        $task = $this->request('tasks.task.get', [
+        $task = $this->request(
+            'tasks.task.get',
+            [
             'taskId' => $taskId,
             'select' => $select
-        ]);
-        
+            ]
+        );
+
         return $task;
     }
 
     /**
      * Добавляет задачу
+     *
      * @param  array $fields Список полей задачи
      * @return int
      */
@@ -65,10 +73,11 @@ trait Task
 
     /**
      * Пакетно добавляет задачи
+     *
      * @param  array $companies Массив параметров задач
      * @return array Массив id активностей
      */
-    public function addTasks(array $tasks = []) :array
+    public function addTasks(array $tasks = []): array
     {
         // Id добавленных задач
         $taskResults = [];
@@ -89,7 +98,7 @@ trait Task
             $received = count($taskResult);
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить задачи ({$sent}/{$received}): {$jsonResponse}"
                 );
             }

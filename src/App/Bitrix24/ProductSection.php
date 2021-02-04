@@ -4,25 +4,29 @@
  * Трейт ProductSection. Методы для работы с разделом товаров в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2020 andrey-tech
- * @see https://github.com/andrey-tech/bitrix24-api-php
+ * @copyright 2019-2021 andrey-tech
+ * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.0
+ * @version 1.2.1
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлен метод getProductSectionFields()
  * v1.2.0 (09.06.2020) Добавлен метод fetchProductSectionList()
- *
+ * v1.2.1 (03.02.2021) Исправлено имя класса исключения в методах
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait ProductSection
 {
     /**
      * Возвращает описание полей раздела товаров, в том числе пользовательских
+     *
      * @return array
      */
     public function getProductSectionFields()
@@ -32,6 +36,7 @@ trait ProductSection
 
     /**
      * Возвращает раздел товаров по ID
+     *
      * @param  int|string $productSectionId ID раздела товаров
      * @return array
      */
@@ -47,6 +52,7 @@ trait ProductSection
 
     /**
      * Добавляет раздел товаров
+     *
      * @param  array $fields Список полей раздела товаров
      * @return int
      */
@@ -64,8 +70,12 @@ trait ProductSection
 
     /**
      * Обновляет раздел товаров
+     *
      * @param  int|string $productSectionId ID раздела товаров
-     * @param  array $fields Список полей раздела товаров
+     * @param  array      $fields           Список
+     *                                      полей
+     *                                      раздела
+     *                                      товаров
      * @return int
      */
     public function updateProductSection($productSectionId, array $fields = [])
@@ -83,6 +93,7 @@ trait ProductSection
 
     /**
      * Удаляет раздел товаров по ID
+     *
      * @param  int|string $productSectionId ID раздела товаров
      * @return int
      */
@@ -98,12 +109,14 @@ trait ProductSection
 
     /**
      * Возвращает все разделы товары
-     * @param array $order Параметры сортировки
-     * @param array $filter Параметры фильтрации
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $filter Параметры фильтрации
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
-    public function getProductSectionList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function getProductSectionList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -116,13 +129,15 @@ trait ProductSection
 
     /**
      * Возвращает все разделы товары используя быстрый метод
-     * @see https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
-     * @param array $order Параметры сортировки
-     * @param array $filter Параметры фильтрации
-     * @param array $select Параметры выборки
-     * @return object \Generator
+     *
+     * @see    https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $filter Параметры фильтрации
+     * @param  array $select Параметры выборки
+     * @return Generator
      */
-    public function fetchProductSectionList(array $filter = [], array $select = [], array $order = []) :\Generator
+    public function fetchProductSectionList(array $filter = [], array $select = [], array $order = []): Generator
     {
         $params = [
             'order'  => $order,
@@ -137,10 +152,11 @@ trait ProductSection
 
     /**
      * Пакетно добавляет разделы товары
+     *
      * @param  array $productSections Массив разделов товаров
      * @return array Массив Id разделов товаров
      */
-    public function addProductSections(array $productSections = []) :array
+    public function addProductSections(array $productSections = []): array
     {
         // Id добавленных разделов товаров
         $productSectionResults = [];
@@ -158,7 +174,7 @@ trait ProductSection
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно добавить разделы товаров ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -171,10 +187,11 @@ trait ProductSection
 
     /**
      * Пакетно обновляет разделы товаров
+     *
      * @param  array $productSections Массив разделов товаров
      * @return array Массив Id разделов товаров
      */
-    public function updateProductSections(array $productSections = []) :array
+    public function updateProductSections(array $productSections = []): array
     {
         // Id обновленных разделов товаров
         $productSectionResults = [];
@@ -186,8 +203,9 @@ trait ProductSection
                 $productSectionId = $productSection['ID'] ?? null;
                 if (empty($productSectionId)) {
                     $jsonProductSection = $this->toJSON($productSection);
-                    throw new Bitrix24Exception(
-                        "Поле 'ID' в разделе товаров (index {$index}) на обновление отсутствует или пустое: '{$jsonProductSection}'"
+                    throw new Bitrix24APIException(
+                        "Поле 'ID' в разделе товаров (index {$index}) на обновление " .
+                        "отсутствует или пустое: '{$jsonProductSection}'"
                     );
                 }
                 $productSectionResults[] = $productSectionId;
@@ -205,7 +223,7 @@ trait ProductSection
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно обновить раздел товаров ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
@@ -216,10 +234,11 @@ trait ProductSection
 
     /**
      * Пакетно удаляет разделы товаров
+     *
      * @param  array $productSectionIds Массив Id разделов товаров
      * @return array Массив Id разделов товаров
      */
-    public function deleteProductSections(array $productSectionIds = []) :array
+    public function deleteProductSections(array $productSectionIds = []): array
     {
         // Id удаленных разделов товаров
         $productSectionResults = [];
@@ -238,7 +257,7 @@ trait ProductSection
 
             if ($received != $sent) {
                 $jsonResponse = $this->toJSON($this->lastResponse);
-                throw new Bitrix24Exception(
+                throw new Bitrix24APIException(
                     "Невозможно пакетно удалить разделы товаров ({$sent}/{$received}): {$jsonResponse}"
                 );
             }
