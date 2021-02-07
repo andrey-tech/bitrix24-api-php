@@ -15,8 +15,8 @@
     "require": {
         "php": ">=7.0",
         "ext-json": "*",
-        "andrey-tech/http-client-php": "^2.8",
-        "andrey-tech/debug-logger-php": "^1.8"
+        "andrey-tech/http-client-php": "^3.0",
+        "andrey-tech/debug-logger-php": "^2.0"
     },
     "autoload": {
         "psr-4": {

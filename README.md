@@ -14,7 +14,7 @@
 
 - [Требования](#%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
 - [Установка](#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
-- [Класс `\App\Bitrix24\Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api)
+- [Класс `Bitrix24API`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api)
     - [Базовые методы класса](#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
     - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B)
 - [Методы для работы с сущностями Битрикс24](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124)
@@ -29,13 +29,14 @@
     - [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с диском](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
 - [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
-    - [Класс `\App\HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp)
+    - [Класс `HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-http)
         - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-1)
         - [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B)
-    - [Класс `\App\DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger)
+    - [Класс `DebugLogger`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-debuglogger)
         - [Методы класса](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
         - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-2)
         - [Примеры](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-1)
+            - [Формат заголовков лога](#%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%D1%82-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%BE%D0%B2-%D0%BB%D0%BE%D0%B3%D0%B0)
 - [Автор](#%D0%90%D0%B2%D1%82%D0%BE%D1%80)
 - [Лицензия](#%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F)
 
@@ -45,8 +46,8 @@
 ## Требования
 
 - PHP >= 7.0;
-- класс [`\App\HTTP`](https://github.com/andrey-tech/http-client-php) - НТТР(S) клиент с троттлингом запросов;
-- класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) - логгер, позволяющий сохранять отладочную информацию в файл;
+- класс [`HTTP`](https://github.com/andrey-tech/http-client-php) >= 3.0 - НТТР(S) клиент с троттлингом запросов, поддержкой маркера BOM в теле сообщения формата JSON и выводом отладочной информации о запросах и ответах в STDOUT;
+- класс [`DebugLogger`](https://github.com/andrey-tech/debug-logger-php) >= 2.0 - логгер, сохраняющий отладочную информацию в файл вместе с данными об объеме используемой оперативной памяти и прошедшем времени;
 - произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
 
 
@@ -55,22 +56,22 @@
 
 Установка через composer:
 ```
-$ composer require andrey-tech/bitrix24-api-php:"^1.5"
+$ composer require andrey-tech/bitrix24-api-php:"^1.6"
 ```
 
 или добавить
 
 ```
-"andrey-tech/bitrix24-api-php": "^1.5"
+"andrey-tech/bitrix24-api-php": "^1.6"
 ```
 
 в секцию require файла composer.json.
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appbitrix24bitrix24api"></a>
-## Класс `\App\Bitrix24\Bitrix24API`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-bitrix24api"></a>
+## Класс `Bitrix24API`
 
 Для работы с REST API Битрикс24 используется класс `\App\Bitrix24\Bitrix24API`.  
-При возникновении ошибок выбрасывается исключение с объектом класса `\App\Bitrix24\Bitrix24APIException`.  
+При возникновении ошибок выбрасывается исключение класса `\App\Bitrix24\Bitrix24APIException`.  
 В настоящее время в классе реализованы методы для работы со следующими сущностями Битрикс24:
 
 - [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
@@ -97,6 +98,7 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.5"
 - `buildCommands(string $function, array $items) :array` Создает массив команд для пакетного запроса.
 - `buildCommand(string $function, array $params) :string` Возвращает команду для пакетного запроса.
 - `getLastResponse() :?array`  Возвращает последний ответ от API.
+- `setLogger($logger)` Устанавливает объект класса, выполняющего логирование отладочной информации в файл.
 
 Параметры методов:
 
@@ -105,7 +107,8 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.5"
 + `$params` - параметры запроса;
 + `$commands` - пакет команд;
 + `$items` - массив полей запросов;
-+ `$halt` - прерывать последовательность запросов в случае ошибки.
++ `$halt` - прерывать последовательность запросов в случае ошибки;
++ `$logger` - объект класса, реализующего интерфейс `\App\DebugLogger\DebugLoggerInterface`.
 
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B"></a>
 ### Дополнительные параметры
@@ -115,8 +118,8 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.5"
 Нестатическое свойство  | По умолчанию       | Описание
 ----------------------- | ------------------ | --------
 `$batchSize`            | 50                 | Устанавливает количество команд в одном пакете запросов (batch)
-`$logger`               | null               | Хранит объект класса `\App\DebugLogger`, выполняющего логирование запросов и ответов к API в файл
-`$http`                 | `object \App\HTTP` | Хранит объект класса `\App\HTTP`, отправляющего запросы к API
+`$logger`               | null               | Хранит объект класса `\App\DebugLogger\DebugLogger`, выполняющего логирование запросов и ответов к API в файл. Если null, то логирование не выполняется.
+`$http`                 | `\App\HTTP\HTTP`   | Хранит объект класса `\App\HTTP\HTTP`, отправляющего запросы к API
 
 Статическое свойство    | По умолчанию       | Описание
 ----------------------- | ------------------ | --------
@@ -178,7 +181,6 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.5"
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -257,7 +259,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -300,7 +302,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -364,7 +365,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -404,7 +405,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -455,7 +455,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -481,7 +481,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -498,7 +497,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -535,7 +534,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -592,7 +590,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -628,7 +626,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -669,7 +666,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -696,7 +693,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -721,7 +717,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -731,7 +727,7 @@ try {
 
 Методы для работы с задачами находятся в трейте `\App\Bitrix24\Task`:
 
-- `getTask($taskId, array $select = []) :?array` Возращает задачу по ID.
+- `getTask($taskId, array $select = []) :?array` Возвращает задачу по ID.
 - `addTask(array $fields = []) :int` Добавляет новую задачу.
 - `addTasks(array $tasks = []) :array` Пакетно добавляет задачи.
 - `getTaskFields() :array` Возвращает описание полей задачи.
@@ -746,7 +742,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -771,7 +766,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -795,7 +790,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -834,7 +828,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -864,7 +858,6 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
 
 try {
 
@@ -895,7 +888,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -903,35 +896,36 @@ try {
 <a id="%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B"></a>
 ## Вспомогательные классы
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-apphttp"></a>
-### Класс `\App\HTTP`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-http"></a>
+### Класс `HTTP`
 
-Класс [`\App\HTTP`](https://github.com/andrey-tech/http-client-php) обеспечивает:
+Класс [`\App\HTTP\НТТР`](https://github.com/andrey-tech/http-client-php) обеспечивает:
 
 - формирование POST запросов к API Битрикс 24 по протоколу HTTPS;
 - троттлинг запросов к API на требуемом уровне - [не более 2-х запросов в секунду](https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php);
 - вывод отладочной информации о запросах к API в STDOUT.
 
-При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`.
+При возникновении ошибок выбрасывается исключение класса `\App\HTTP\HTTPException`.
 
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-1"></a>
 #### Дополнительные параметры
 
-Дополнительные параметры устанавливаются через публичные свойства объекта класса `\App\HTTP`:
+Дополнительные параметры устанавливаются через публичные свойства объекта класса `\App\HTTP\HTTP`:
 
 Свойство                | По умолчанию            | Описание
 ----------------------- | ----------------------- | --------
-`$debugLevel`           | `\App\HTTP::DEBUG_NONE` | Устанавливает уровень вывода отладочной информации о запросах в STDOUT (битовая маска, составляемая из значений DEBUG_URL, DEBUG_HEADERS, DEBUG_CONTENT)
-`$throttle`             | 2                       | Максимальное число HTTP запросов в секунду
+`$debugLevel`           | `\App\HTTP\HTTP::DEBUG_NONE` | Устанавливает уровень вывода отладочной информации о запросах в STDOUT (битовая маска, составляемая из значений DEBUG_NONE, DEBUG_URL, DEBUG_HEADERS, DEBUG_CONTENT)
+`$throttle`             | 0                       | Максимальное число HTTP запросов в секунду (0 - троттлинг отключен)
 `$addBOM`               | false                   | Добавлять [маркер ВОМ](https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%80_%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8_%D0%B1%D0%B0%D0%B9%D1%82%D0%BE%D0%B2) UTF-8 (EFBBBF) к запросам в формате JSON
 `$useCookies`           | false                   | Использовать cookies в запросах
 `$cookieFile`           | 'temp/cookies.txt'      | Путь к файлу для хранения cookies
-`$verifySSLCerfificate` | true                    | Включить проверку SSL/TLS-сертификата сервера
-`$SSLCertificateFile`   | 'cacert.pem'            | Устанавливает файл SSL/TLS-сертификатов X.509 корневых удостоверяющих центров (CA) в формате РЕМ (null - использовать файл, указанный в параметре curl.cainfo файла php.ini)
-`$userAgent`            | 'HTTP-client/2.x.x'     | Устанавливает НТТР заголовок UserAgent в запросах
+`$verifySSLCertificate` | true                    | Включить проверку SSL/TLS-сертификата сервера
+`$SSLCertificateFile`   | 'cacert.pem'            | Устанавливает файл SSL/TLS-сертификатов X.509 корневых удостоверяющих центров (CA) в формате РЕМ (установка в null означает использовать файл, указанный в параметре [curl.cainfo](https://www.php.net/manual/ru/curl.configuration.php) файла php.ini)
+`$userAgent`            | 'HTTP-client/3.x.x'     | Устанавливает НТТР заголовок UserAgent в запросах
 `$curlConnectTimeout`   | 60                      | Устанавливает таймаут соединения, секунды
 `$curlTimeout`          | 60                      | Устанавливает таймаут обмена данными, секунды
-`$successStatusCodes`   | [ 200 ]                 | Коды статуса НТТР, которые считаются успешными
+`$successStatusCodes`   | [ 200 ]                 | Коды статуса НТТР, соответствующие успешному выполнению запроса
+
 
 <a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B"></a>
 #### Примеры
@@ -939,8 +933,7 @@ try {
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
-use App\HTTP;
+use App\HTTP\HTTP;
 
 try {
     $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
@@ -960,7 +953,7 @@ try {
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -974,7 +967,6 @@ User-Agent: HTTP-client/2.x.x
 Accept: */*
 Content-Length: 5
 Content-Type: application/x-www-form-urlencoded
-
 
 id=20
 
@@ -1010,31 +1002,38 @@ X-Bitrix-LB: lb-ru-04
 {"result":{"ID":"20","COMPANY_TYPE":"CUSTOMER","LOGO":null,"LEAD_ID":null,"HAS_PHONE":"N","HAS_EMAIL":"Y"}}
 ```
 
-<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-appdebuglogger"></a>
-### Класс `\App\DebugLogger`
+<a id="%D0%9A%D0%BB%D0%B0%D1%81%D1%81-debuglogger"></a>
+### Класс `DebugLogger`
 
-Класс [`\App\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) обеспечивает логирование запросов и ответов к API Битрикс24 в файл.  
-При возникновении ошибок выбрасывается исключение с объектом класса `\App\AppException`. 
+Класс [`\App\DebugLogger\DebugLogger`](https://github.com/andrey-tech/debug-logger-php) обеспечивает логирование запросов и ответов к API Битрикс24 в файл.  
+При возникновении ошибок выбрасывается исключение класса `\App\DebugLogger\DebugLoggerException`. 
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 #### Методы класса
 
-- `static instance(string $logFileName = 'debug.log') :\App\DebugLogger`  
-    Возвращает единственный объект класса для заданного лог-файла `$logFileName`.
+- `static instance(string $logFileName = 'debug.log') :self`  
+    Возвращает единственный объект данного класса **для заданного лог-файла** `$logFileName`.
     + `$logFileName` - имя лог-файла.
-- `save(mixed $info, $object = null) :void` Сохраняет подлежащую логированию информацию в файл.
-    + $info - строка, массив или объект для логирования;
-    + $object - ссылка на объект класса в котором выполняется логирование.
+- `save(mixed $info, object $object = null, string $header = null) :void` Сохраняет подлежащую логированию информацию в файл.
+    + `$info` - строка, массив или объект для логирования;
+    + `$object` - ссылка на объект класса в котором выполняется логирование;
+    + `$header` - строка заголовка для сохраняемой в лог файл информации.
 
 <a id="%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-2"></a>
 #### Дополнительные параметры
 
-Дополнительные параметры устанавливаются через публичные свойства объекта класса `\App\DebugLogger`:
+Дополнительные параметры устанавливаются через публичные свойства класса `\App\DebugLogger\DebugLogger`:
 
-Свойство                | По умолчанию  | Описание
+Нестатическое свойство  | По умолчанию  | Описание
 ----------------------- | ------------- | --------
-`$isActive`             | false         | Включает или выключает логирование
+`$isActive`             | false         | Включает или выключает логирование для конкретного файла, задаваемого параметром `$logFileName` метода `instance()`
+
+Статическое свойство    | По умолчанию  | Описание
+----------------------- | ------------- | --------
 `$logFileDir`           | `temp/`       | Устанавливает каталог, в котором сохраняются лог-файлы
+`mkdirMode`             | 0755          | Устанавливает режим доступа для создаваемых каталогов для хранения лог файлов в виде восьмеричного числа
+`$uniqIdLength`         | 7             | Длина уникального буквенно-цифрового [a-z0-9]+ идентификатора объекта класса `DebugLogger` для сохранения в лог файле,  позволяющего находить записи, созданные одним и тем же процессом
+
 
 <a id="%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-1"></a>
 #### Примеры
@@ -1042,28 +1041,31 @@ X-Bitrix-LB: lb-ru-04
 ```php
 use App\Bitrix24\Bitrix24API;
 use App\Bitrix24\Bitrix24APIException;
-use App\AppException;
-use App\DebugLogger;
+use App\DebugLogger\DebugLogger;
 
 try {
     $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
     $bx24 = new Bitrix24API($webhookURL);
 
-    $logFileName = 'debug_bitrix24api.log';
-    $bx24->logger = DebugLogger::instance($logFileName);
-
     // Устанавливаем каталог для сохранения лог файлов
-    $bx24->logger->logFileDir = 'logs/';
+    DebugLogger::$logFileDir = 'logs/';
+
+    // Создаем объект класса логгера
+    $logFileName = 'debug_bitrix24api.log';
+    $logger = DebugLogger::instance($logFileName);
 
     // Включаем логирование
-    $bx24->logger->isActive = true;
+    $logger->isActive = true;
+
+    // Устанавливаем логгер
+    $bx24->setLogger($logger);
 
     // Загружаем все компании
     $bx24->fetchCompanyList();
 
 } catch (Bitrix24APIException $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
-} catch (AppException $e) {
+} catch (Exception $e) {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
@@ -1071,7 +1073,7 @@ try {
 Пример результатов логирования:
 
 ```
-*** 92qshr5 [2020-06-14 13:32:44,993285 +00:00 Δ0.012308 s, 0.70/2.00 MiB] ********************
+*** 92qshr5 [2020-06-14 13:32:44.993285 +00:00 Δ0.012308 s, 0.70/2.00 MiB] ********************
 * Class: App\Bitrix24\Bitrix24API
 ЗАПРОС: crm.company.list.json
 {
@@ -1086,7 +1088,7 @@ try {
 }
 
 
-*** 92qshr5 [2020-06-14 13:32:46,900518 +00:00 Δ1.907233 s, 1.14/2.00 MiB] ********************
+*** 92qshr5 [2020-06-14 13:32:46.900518 +00:00 Δ1.907233 s, 1.14/2.00 MiB] ********************
 ОТВЕТ: crm.company.list.json
 {
     "result": [
@@ -1103,12 +1105,26 @@ try {
     }
 }
 
-*** 92qshr5 [2020-06-14 13:32:46,902085 +00:00 Δ0.001567 s, 1.30/2.00 MiB] ********************
+*** 92qshr5 [2020-06-14 13:32:46.902085 +00:00 Δ0.001567 s, 1.30/2.00 MiB] ********************
 * Class: App\Bitrix24\Bitrix24API
 По запросу (fetchList) crm.company.list получено сущностей: 50, всего получено: 50
 ```
 
+<a id="%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%D1%82-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%BE%D0%B2-%D0%BB%D0%BE%D0%B3%D0%B0"></a>
+##### Формат заголовков лога
 
+```
+*** 92qshr5 [2020-06-14 13:32:46.902085 +00:00 Δ0.001567 s, 1.30/2.00 MiB] ********************
+* Class: App\Bitrix24\Bitrix24API
+```
+
+- `92qshr5` - уникальный буквенно-цифровой [a-z0-9]+ идентификатор объекта класса `DebugLogger`, позволяющий находить в лог файле записи, созданные одним и тем же процессом;
+- `2020-06-14 13:32:46.902085` - дата и время сохранения информации с точностью до микросекунд;
+- `Δ0.001567 s` - время, прошедшее с момента предыдущего сохранения информации в секундах и микросекундах;
+- `1.30/2.00 MiB` - данные об используемой оперативной памяти в единицах количества информации с [двоичными приставками](https://ru.wikipedia.org/wiki/%D0%94%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BF%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B8):
+    + `1.30` - максимальный объем памяти, который был выделен PHP-скрипту системой;
+    + `2.00` - реальный объем памяти, выделенный PHP-скрипту системой;
+- 'Class: App\Bitrix24\Bitrix24API' - полное имя класса из которого сделано сохранение в лог файл.
 
 <a id="%D0%90%D0%B2%D1%82%D0%BE%D1%80"></a>
 ## Автор

@@ -23,13 +23,15 @@
  * v1.3.1 (15.06.2020) Исправлено логирование ответа
  * v1.3.2 (23.01.2021) Исправлены сообщения об ошибках
  * v1.4.0 (03.02.2021) Добавлены свойства класса, задающие имена полей связанных сущностей
+ * v1.5.0 (06.02.2021) Изменения для классов: HTTP 3.0 и DebugLogger 2.0; добавлен метод setLogger()
+ *
  */
 
 declare(strict_types=1);
 
 namespace App\Bitrix24;
 
-use App\HTTP;
+use App\HTTP\HTTP;
 use Generator;
 
 class Bitrix24API
@@ -66,7 +68,7 @@ class Bitrix24API
     /**
      * Объект класса, выполняющего логирование
      *
-     * @param object
+     * @param \App\DebugLogger\DebugLoggerInterface
      */
     public $logger;
 
@@ -78,9 +80,8 @@ class Bitrix24API
     public $batchSize = 50;
 
     /**
-     * Объект класса \App\HTTP
-     *
-     * @param object
+     * Объект класса \App\HTTP\HTTP
+     * @param HTTP
      */
     public $http;
 
@@ -105,13 +106,27 @@ class Bitrix24API
      */
     public function __construct(string $webhookUrl)
     {
-        // Нормализация для слеша в конце URL
+        // Нормализация для / в конце URL
         $this->webhookUrl = rtrim($webhookUrl, '/');
 
         $this->http = new HTTP();
         // Не более 2-х запросов в секунду (https://dev.1c-bitrix.ru/rest_help/rest_sum/index.php)
         $this->http->throttle = 2;
         $this->http->useCookies = false;
+    }
+
+    /**
+     * Устанавливает объект класса, выполняющего логирование
+     * @param \App\DebugLogger\DebugLoggerInterface $logger
+     */
+    public function setLogger($logger)
+    {
+        if (!($logger instanceof \App\DebugLogger\DebugLoggerInterface)) {
+            throw new Bitrix24APIException(
+                "Объект класса логгера должен реализовывать интерфейс \App\DebugLogger\DebugLoggerInterface"
+            );
+        }
+        $this->logger = $logger;
     }
 
     /**
