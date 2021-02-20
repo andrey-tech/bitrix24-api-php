@@ -8,12 +8,14 @@
  * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.1
+ * @version 1.3.0
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлены методы getDealFields(), getDealProductRowFields()
  * v1.2.0 (09.06.2020) Изменен метод getDeal(), добавлен метод fetchDealList()
  * v1.2.1 (03.02.2021) Исправлено имя класса исключения в методах
+ * v1.3.0 (20.02.2021) Метод getDealProductRowFields() перенесен в трейт ProductRow с именем getProductRowFields()
+ *
  */
 
 declare(strict_types=1);
@@ -94,11 +96,8 @@ trait Deal
      * Обновляет сделку
      *
      * @param  int|string $dealId ID сделки
-     * @param  array      $fields Список
-     *                            полей
-     *                            сделки
-     * @param  array      $params Параметры
-     *                            для сделки
+     * @param  array      $fields Список полей сделки
+     * @param  array      $params Параметры для сделки
      * @return int
      */
     public function updateDeal($dealId, array $fields = [], array $params = [])
@@ -193,10 +192,8 @@ trait Deal
     /**
      * Устанавливает контакты, связанные со сделкой по ID сделки
      *
-     * @param  int|string $dealId   ID
-     *                              сделки
-     * @param  array      $contacts Массив
-     *                              контактов
+     * @param  int|string $dealId   ID сделки
+     * @param  array      $contacts Массив контактов
      * @return array
      */
     public function setDealContactItems($dealId, array $contacts)
@@ -212,16 +209,6 @@ trait Deal
     }
 
     // ------------------------------------------------------------------------
-
-    /**
-     * Возвращает описание полей товарных позиций в cделке
-     *
-     * @return array
-     */
-    public function getDealProductRowFields()
-    {
-        return $this->request('crm.productrow.fields');
-    }
 
     /**
      * Возвращает товарные позиции, связанные со сделкой по ID сделки
@@ -242,10 +229,8 @@ trait Deal
     /**
      * Устанавливает товарные позиции, связанные со сделкой по ID сделки
      *
-     * @param  int|string $dealId   ID
-     *                              сделки
-     * @param  array      $products Массив
-     *                              товаров
+     * @param  int|string $dealId   ID сделки
+     * @param  array      $products Массив товаров
      * @return array
      */
     public function setDealProductRows($dealId, array $products)
@@ -266,8 +251,7 @@ trait Deal
     /**
      * Пакетно добавляет сделки c товарными позициями
      *
-     * @param  array $deals  Массив сделок (поля связанных сущностей [
-     *                       'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
+     * @param  array $deals  Массив сделок (поля связанных сущностей [ 'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
      * @param  array $params Параметры сделок
      * @return array Массив id сделок
      */
@@ -339,7 +323,8 @@ trait Deal
      * Пакетно обновляет сделки c товарными позициями
      *
      * @param array $deals  Массив сделок (поля связанных сущностей [
-     *                      'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ]) Если в сделке много
+     *                      'COMPANY_ID', 'CONTACT_ID', 'PRODUCTS' ])
+     *                      Если в сделке много
      *                      контактов, а в запросе на обновление сделки
      *                      передано поле CONTACT_ID, то после обновления в
      *                      сделке остается только 1 контакт или 0
@@ -463,17 +448,11 @@ trait Deal
     /**
      * Устанавливает файл в НЕ множественное пользовательское поле типа файл (файл нельзя удалить)
      *
-     * @param  int|string $dealId           Id
-     *                                      Cделки
-     * @param  int|string $userFieldId      Id НЕ множественного пользовательского
-     *                                      поля в сделке ('UF_CRM_XXXXXXXXXX')
-     * @param  string     $fileName         Имя
-     *                                      файла
-     * @param  string     $fileContent      Raw
-     *                                      данные
-     *                                      файла
-     * @param  bool       $isBase64FileData Raw данные файла
-     *                                      закодированы base64?
+     * @param  int|string $dealId           Id cделки
+     * @param  int|string $userFieldId      Id НЕ множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX')
+     * @param  string     $fileName         Имя файла
+     * @param  string     $fileContent      Raw данные файла
+     * @param  bool       $isBase64FileData Raw данные файла закодированы base64?
      * @return int
      * @see    https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      */
@@ -501,16 +480,11 @@ trait Deal
     /**
      * Устанавливает файлы во множественное пользовательское поле типа файл (файлы можно удалить)
      *
-     * @param  int|string $dealId           Id
-     *                                      Cделки
-     * @param  int|string $userFieldId      Id множественного пользовательского
-     *                                      поля в сделке ('UF_CRM_XXXXXXXXXX')
-     * @param  array      $files            Массив параметров файлов ([ [  <Имя файла>,
-     *                                      <Raw данные файла> ], ... ])
- (пустой массив
-     *                                      для удаления всех файлов).
-     * @param  bool       $isBase64FileData Raw данные файла
-     *                                      закодированны base64?
+     * @param  int|string $dealId           Id cделки
+     * @param  int|string $userFieldId      Id множественного пользовательского поля в сделке ('UF_CRM_XXXXXXXXXX')
+     * @param  array      $files            Массив параметров файлов ([ [ <Имя файла>, <Raw данные файла> ], ... ])
+     *                                      (пустой массив для удаления всех файлов).
+     * @param  bool       $isBase64FileData Raw данные файла закодированы base64?
      * @return int
      * @see    https://dev.1c-bitrix.ru/rest_help/crm/cases/edit/form_lead_with_files.php
      */

@@ -8,7 +8,7 @@
  * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.3.3
+ * @version 1.6.0
  *
  * v1.0.0 (13.10.2019) Начальный релиз
  * v1.1.0 (31.10.2019) Добавлен метод getLastResponse()
@@ -24,6 +24,7 @@
  * v1.3.2 (23.01.2021) Исправлены сообщения об ошибках
  * v1.4.0 (03.02.2021) Добавлены свойства класса, задающие имена полей связанных сущностей
  * v1.5.0 (06.02.2021) Изменения для классов: HTTP 3.0 и DebugLogger 2.0; добавлен метод setLogger()
+ * v1.6.0 (20.02.2021) Добавлены трейты Lead, ProductRow
  *
  */
 
@@ -46,6 +47,8 @@ class Bitrix24API
     use Disk;
     use Activity;
     use Task;
+    use Lead;
+    use ProductRow;
 
     /**
      * Имя поля для массива связанных сущностей типа контакт

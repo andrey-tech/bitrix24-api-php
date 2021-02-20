@@ -24,10 +24,12 @@
     - [Методы для работы с каталогами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с товарами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8)
     - [Методы работы с разделами товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2)
+    - [Методы работы с товарными позициями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D1%8F%D0%BC%D0%B8)
     - [Методы для работы с пользователями](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
     - [Методы работы с задачами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с делами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
     - [Методы для работы с диском](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
+    - [Методы для работы с лидами](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BB%D0%B8%D0%B4%D0%B0%D0%BC%D0%B8)
 - [Вспомогательные классы](#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B)
     - [Класс `HTTP`](#%D0%9A%D0%BB%D0%B0%D1%81%D1%81-http)
         - [Дополнительные параметры](#%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-1)
@@ -48,7 +50,7 @@
 - PHP >= 7.0;
 - класс [`HTTP`](https://github.com/andrey-tech/http-client-php) >= 3.0 - НТТР(S) клиент с троттлингом запросов, поддержкой маркера BOM в теле сообщения формата JSON и выводом отладочной информации о запросах и ответах в STDOUT;
 - класс [`DebugLogger`](https://github.com/andrey-tech/debug-logger-php) >= 2.0 - логгер, сохраняющий отладочную информацию в файл вместе с данными об объеме используемой оперативной памяти и прошедшем времени;
-- произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
+- произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/), в случае если не используется Composer.
 
 
 <a id="%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0"></a>
@@ -80,10 +82,12 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.6"
 - [Каталог](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
 - [Товары](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8)
 - [Разделы товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2)
+- [Товарные позиции](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D1%8F%D0%BC%D0%B8)
 - [Задачи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%D0%BC%D0%B8)
 - [Дела](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8)
 - [Пользователи](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8)
 - [Диск](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%BC)
+- [Лиды](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BB%D0%B8%D0%B4%D0%B0%D0%BC%D0%B8)
 
 <a id="%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0"></a>
 ### Базовые методы класса
@@ -157,7 +161,6 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.6"
 - `setDealContactItems($dealId, array $contacts) :array` Устанавливает контакты, связанные со сделкой.
 - `setDealProductRows($dealId, array $products) :array` Устанавливает товарные позиции, связанные со сделкой.
 - `getDealProductRows($dealId) :array` Возвращает массив параметров товарных позиций, связанных со сделкой.
-- `getDealProductRowFields() :array` Возвращает описание полей товарных позиций.
 - `getDealFields() :array` Возвращает описание полей сделки, в том числе пользовательских.
 
 Параметры методов:
@@ -671,6 +674,14 @@ try {
 }
 ```
 
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D1%8F%D0%BC%D0%B8"></a>
+### Методы работы с товарными позициями
+
+Методы для работы с товарными позициями находятся в трейте `\App\Bitrix24\ProductRow`:
+
+- `getProductRowFields() :array` Возвращает описание полей товарных позиций.
+
+
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8"></a>
 ### Методы для работы с пользователями
 
@@ -892,6 +903,88 @@ try {
     printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
 }
 ```
+
+<a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BB%D0%B8%D0%B4%D0%B0%D0%BC%D0%B8"></a>
+### Методы для работы с лидами
+
+Методы для работы с лидами находятся в трейте `\App\Bitrix24\Lead`:
+
+- `getLeadFields() :array` Возвращает описание полей лида, в том числе пользовательских.
+- `getLead($leadId, array $with = []) :array` Возвращает лид по его ID.
+- `addLead(array $fields = [], array $params = []) :int` Добавляет лид и возвращает его ID.
+- `updateLead($leadId, array $fields = [], array $params = []) :int` Обновляет лид и возвращает его ID.
+- `deleteLead($leadId) :int` Удаляет лид по его ID.
+- `getLeadList(array $filter = [], array $select = [], array $order = []): Generator`  
+    Загружает все лиды с возможностью фильтрации, сортировки и выборки полей.
+- `fetchLeadList(array $filter = [], array $select = [], array $order = []): Generator`  
+    Загружает все лиды с возможностью фильтрации, сортировки и выборки полей.  
+    Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.
+- `getLeadProductRows($leadId) :array` Возвращает массив параметров товарных позиций, связанных с лидом.
+- `setLeadProductRows($leadId, array $products) :array` Устанавливает товарные позиции, связанные с лидом.
+
+Параметры методов:
+
++ `$leadId` - ID лида;
++ `$with` - имена связанных сущностей, возвращаемых вместе с лидом:
+    * `\App\Bitrix24\Bitrix24API::$WITH_PRODUCTS` - товарные позиции (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$PRODUCTS`);
+- `$fields` - набор полей лида;
+- `$params` - набор параметров лида;
+- `$filter` - параметры фильтрации;
+- `$order` - параметры сортировки;
+- `$select` - параметры выборки полей;
+- `$products` - массив параметров товарных позиций.
+
+```php
+use App\Bitrix24\Bitrix24API;
+use App\Bitrix24\Bitrix24APIException;
+
+try {
+
+    $webhookURL = 'https://www.example.com/rest/1/u7ngxagzrhpuj31a/';
+    $bx24 = new Bitrix24API($webhookURL);
+
+    // Добавляем новый лид
+    $leadId = $bx24->addLead([
+        'TITLE'      => 'Новый лид №1'
+    ]);
+    print_r($leadId);
+
+    // Устанавливаем набор связанных товарных позиций
+    $bx24->setLeadProductRows($leadId, [
+        [ 'PRODUCT_ID' => 1689, 'PRICE' => 1500.00, 'QUANTITY' => 2 ],
+        [ 'PRODUCT_ID' => 1860, 'PRICE' => 500.00, 'QUANTITY' => 15 ]
+    ]);
+
+    // Обновляем существующий лид
+    $bx24->updateLead($leadId [
+        'TITLE' => 'Новый лид №12'
+    ]);
+
+    // При необходимости, изменяем значение по умолчанию 'PRODUCTS' на '_PRODUCTS' для имени поля
+    // со списком товарных позиций, возвращаемых вместе с лидом
+    Bitrix24API::$WITH_PRODUCTS = '_PRODUCTS';
+
+    // Загружаем лид по ID вместе со связанными товарными позициями
+    $lead = $bx24->getLead($leadId, [ Bitrix24API::$WITH_PRODUCTS ]);
+    print_r($lead);
+
+    // Удаляем существующий лид
+    $bx24->deleteLead($leadId);
+
+    // Загружаем все лиды используя быстрый метод при работе с большими объемами данных
+    $generator = $bx24->fetchLeadList();
+    foreach ($generator as $leads) {
+        foreach($leads as $lead) {
+            print_r($lead);
+        }
+    }
+
+} catch (Bitrix24APIException $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+} catch (Exception $e) {
+    printf('Ошибка (%d): %s' . PHP_EOL, $e->getCode(), $e->getMessage());
+}    
+```    
 
 <a id="%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B"></a>
 ## Вспомогательные классы
