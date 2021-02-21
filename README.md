@@ -1,12 +1,18 @@
 # Bitrix24 API PHP Wrapper
 
-![Bitrix24 logo](./assets/bitrix24-logo.png)  
+![Bitrix24 logo](assets/bitrix24-logo.png)  
+
 [![Latest Stable Version](https://poser.pugx.org/andrey-tech/bitrix24-api-php/v)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
 [![Total Downloads](https://poser.pugx.org/andrey-tech/bitrix24-api-php/downloads)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
+[![GitHub stars](https://img.shields.io/github/stars/andrey-tech/bitrix24-api-php)](https://github.com/andrey-tech/bitrix24-api-php/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/andrey-tech/bitrix24-api-php)](https://github.com/andrey-tech/bitrix24-api-php/network)
+[![GitHub watchers](https://img.shields.io/github/watchers/andrey-tech/bitrix24-api-php)](https://github.com/andrey-tech/bitrix24-api-php/watchers)
 [![License](https://poser.pugx.org/andrey-tech/bitrix24-api-php/license)](https://packagist.org/packages/andrey-tech/bitrix24-api-php)
 
 Обертка на PHP7+ для работы с [REST API Битрикс24](https://dev.1c-bitrix.ru/rest_help/) с использованием механизма [входящих вебхуков](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=8581), 
 троттлингом запросов и логированием в файл.
+
+Разработчики на JavaScript могут воспользоваться классом-оберткой [andrey-tech/bx24-wrapper-js](https://github.com/andrey-tech/bx24-wrapper-js).
 
 # Содержание
 
@@ -50,7 +56,7 @@
 - PHP >= 7.0;
 - класс [`HTTP`](https://github.com/andrey-tech/http-client-php) >= 3.0 - НТТР(S) клиент с троттлингом запросов, поддержкой маркера BOM в теле сообщения формата JSON и выводом отладочной информации о запросах и ответах в STDOUT;
 - класс [`DebugLogger`](https://github.com/andrey-tech/debug-logger-php) >= 2.0 - логгер, сохраняющий отладочную информацию в файл вместе с данными об объеме используемой оперативной памяти и прошедшем времени;
-- произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/), в случае если не используется Composer.
+- произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/), необходимый в том случае, если не используется Composer.
 
 
 <a id="%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0"></a>
@@ -79,7 +85,7 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.6"
 - [Сделки](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%D0%BC%D0%B8)
 - [Контакты](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D0%B0%D0%BC%D0%B8)
 - [Компании](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8)
-- [Каталог](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
+- [Каталоги товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D0%B0%D0%BC%D0%B8)
 - [Товары](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%D0%BC%D0%B8)
 - [Разделы товаров](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B0%D0%BC%D0%B8-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2)
 - [Товарные позиции](#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D1%8F%D0%BC%D0%B8)
@@ -125,11 +131,11 @@ $ composer require andrey-tech/bitrix24-api-php:"^1.6"
 `$logger`               | null               | Хранит объект класса `\App\DebugLogger\DebugLogger`, выполняющего логирование запросов и ответов к API в файл. Если null, то логирование не выполняется.
 `$http`                 | `\App\HTTP\HTTP`   | Хранит объект класса `\App\HTTP\HTTP`, отправляющего запросы к API
 
-Статическое свойство    | По умолчанию       | Описание
------------------------ | ------------------ | --------
-`$WITH_CONTACTS`        | CONTACTS           | Имя поля для массива возвращаемых связанных сущностей типа контакт
-`$WITH_COMPANIES`       | COMPANIES          | Имя поля для массива возвращаемых связанных сущностей типа компания
-`$WITH_PRODUCTS`        | PRODUCTS           | Имя поля для массива возвращаемых связанных сущностей типа товар
+Статическое свойство    | По умолчанию         | Описание
+----------------------- | -------------------- | --------
+`$WITH_CONTACTS`        | 'CONTACTS'           | Имя поля для массива возвращаемых связанных сущностей типа контакт
+`$WITH_COMPANIES`       | 'COMPANIES'          | Имя поля для массива возвращаемых связанных сущностей типа компания
+`$WITH_PRODUCTS`        | 'PRODUCTS'           | Имя поля для массива возвращаемых связанных сущностей типа товар
 
 <a id="%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D0%BC%D0%B8-%D0%91%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%8124"></a>
 ## Методы для работы с сущностями Битрикс24
