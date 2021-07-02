@@ -47,7 +47,7 @@ trait Task
            // usleep(500000);
         }
     }
-    function getTasksList($task_ids)
+    private function getTasksList($task_ids)
     {
         $tasks = $this->request(
             'tasks.task.list',
