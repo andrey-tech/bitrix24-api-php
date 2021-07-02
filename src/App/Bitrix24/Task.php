@@ -44,20 +44,21 @@ trait Task
             $closure(
                 $this->getTasksList($chunk)
             );
-            usleep(500000);
+           // usleep(500000);
         }
     }
     function getTasksList($task_ids)
     {
-        $method = 'tasks.task.list';
-        $data = array(
-            // "ORDER" => array("CREATED_DATE" => "desc"),
-            "filter" => array("ID" => $task_ids),
+        $tasks = $this->request(
+            'tasks.task.list',
+            [
+                'filter' => array("ID" => $task_ids),
+            ]
 
         );
 
-        $result = self::$b24->send_curl($method, $data);
-        return @$result['result'];
+        return   $tasks['tasks'] ?? null;
+
     }
     /**
      * Возвращает задачу по ID
