@@ -33,6 +33,35 @@ trait Task
     /**
      * Возвращает задачу по ID
      *
+     * @param  int|string[] $taskIds  ID задач
+     * @return void
+     */
+    public function getTasks($taskIds, callable $closure )
+    {
+        $chunks = array_chunk($taskIds, 50);
+
+        foreach($chunks as $chunk) {
+            $closure(
+                $this->getTasksList($chunk)
+            );
+            usleep(500000);
+        }
+    }
+    function getTasksList($task_ids)
+    {
+        $method = 'tasks.task.list';
+        $data = array(
+            // "ORDER" => array("CREATED_DATE" => "desc"),
+            "filter" => array("ID" => $task_ids),
+
+        );
+
+        $result = self::$b24->send_curl($method, $data);
+        return @$result['result'];
+    }
+    /**
+     * Возвращает задачу по ID
+     *
      * @param  int|string $taskId ID задачи
      * @param  array      $select Параметры
      *                            выборки
@@ -50,6 +79,8 @@ trait Task
 
         return $task;
     }
+
+
 
     /**
      * Добавляет задачу
