@@ -17,7 +17,9 @@
         "ext-json": "*",
         "andrey-tech/http-client-php": "^3.0",
         "andrey-tech/debug-logger-php": "^2.0",
-        "phpunit/phpunit": "^8.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
