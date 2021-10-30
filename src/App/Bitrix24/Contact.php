@@ -70,12 +70,13 @@ trait Contact
         return $this->createResultWith($result, 'CONTACT', $with);
     }
     /**
-     * Возвращает контакт по PHONE
+     * Возвращает контакты по номеру телефона
      *
      * @param  int|string $phone_number номер телефона
+     * @param  array $select Параметры выборки
      * @return array
      */
-    public function getContactByPhoneNumber($phone_number, $select=[])
+    public function getContactsByPhoneNumber($phone_number, $select=[])
     {
 
         return $this->request(
