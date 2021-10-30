@@ -69,7 +69,25 @@ trait Contact
 
         return $this->createResultWith($result, 'CONTACT', $with);
     }
+    /**
+     * Возвращает контакт по PHONE
+     *
+     * @param  int|string $phone_number номер телефона
+     * @return array
+     */
+    public function getContactByPhoneNumber($phone_number, $select=[])
+    {
 
+        return $this->request(
+            'crm.contact.list',
+            [
+                // 'order'  => $order,
+                'filter' => ['PHONE' =>  $phone_number],
+                'select' => $select
+            ]
+        );
+
+    }
     /**
      * Добавляет контакт
      *
