@@ -287,6 +287,7 @@ try {
 - `fetchContactList(array $filter = [], array $select = [], array $order = []) :\Generator`  
     Загружает все контакты с возможностью фильтрации, сортировки и выборки полей.  
     Реализует [быстрый метод](https://dev.1c-bitrix.ru/rest_help/rest_sum/start.php) загрузки при работе с большими объемами данных.    
+- `getContactsByPhone(int|string $phone, $select = []) :array` Возвращает контакты по номеру телефона.
 - `addContacts(array $contacts = [], array $params = []) :array` Пакетно добавляет контакты.
 - `updateContacts(array $contacts = [], array $params = []) :array` Пакетно обновляет контакты.
 - `deleteContacts(array $contactIds = []) :array` Пакетно удаляет контакты.
@@ -298,6 +299,7 @@ try {
 
 + `$contaxctId` - ID контакта;
 + `$contactIds` - массив ID сделок;
++ `$phone` - номер телефона;
 + `$with` - имена связанных сущностей, возвращаемых вместе с контактом:
     * `\App\Bitrix24\Bitrix24API::$WITH_COMPANIES` - компании (возвращаются в виде массива в поле с именем, заданным публичным статическим свойством `Bitrix24API::$WITH_COMPANIES`);
 - `$fields` - набор полей сделки;
@@ -745,6 +747,7 @@ try {
 Методы для работы с задачами находятся в трейте `\App\Bitrix24\Task`:
 
 - `getTask($taskId, array $select = []) :?array` Возвращает задачу по ID.
+- `getTaskList(array $filter = [], array $select = [], array $order = []): Generator` Возвращает все задачи.
 - `addTask(array $fields = []) :int` Добавляет новую задачу.
 - `addTasks(array $tasks = []) :array` Пакетно добавляет задачи.
 - `getTaskFields() :array` Возвращает описание полей задачи.
@@ -752,7 +755,9 @@ try {
 Параметры методов:
 
 + `$taskId` - ID задачи;
++ `$filter` - параметры фильтрации;
 + `$select` - параметры выборки полей;
++ `$order` - параметры сортировки;
 + `$fields` - набор полей задачи;
 + `$tasks` - массив наборов полей задач.
 
@@ -768,6 +773,12 @@ try {
     // Получаем задачу по ID
     $task = $bx24->getTask(4325);
     print_r($task);
+
+    // Получаем все задачи 
+    $generator = $bx24->getTaskList();
+    foreach ($generator as $result) {
+        print_r($result);
+    }
 
     // Создаем новую задачу
     $taskId = $bx24->addTask([

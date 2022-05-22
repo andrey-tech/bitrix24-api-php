@@ -4,19 +4,22 @@
  * Трейт Task. Методы для работы с задачами в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2021 andrey-tech
+ * @copyright 2019-2022 andrey-tech
  * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.0.1
+ * @version 1.1.0
  *
  * v1.0.0 (02.12.2019) Начальная версия
  * v1.0.1 (03.02.2021) Исправлено имя класса исключения в методах
+ * v1.1.0 (22.05.2022) Добавлен метод getTaskList()
  */
 
 declare(strict_types=1);
 
 namespace App\Bitrix24;
+
+use Generator;
 
 trait Task
 {
@@ -49,6 +52,27 @@ trait Task
         );
 
         return $task;
+    }
+
+    /**
+     * Возвращает все задачи
+     *
+     * @param  array $filter Параметры фильтрации
+     * @param  array $order  Параметры
+     *                       сортировки
+     * @param  array $select Параметры выборки
+     * @return Generator
+     * @see    https://dev.1c-bitrix.ru/rest_help/tasks/task/tasks/tasks_task_list.php
+     */
+    public function getTaskList(array $filter = [], array $select = [], array $order = []): Generator
+    {
+        $params = [
+            'order'  => $order,
+            'filter' => $filter,
+            'select' => $select
+        ];
+
+        return $this->getList('tasks.task.list', $params);
     }
 
     /**

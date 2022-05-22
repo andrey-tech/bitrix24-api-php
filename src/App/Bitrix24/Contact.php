@@ -4,17 +4,18 @@
  * Трейт Contact. Методы для работы с контактом в системе Bitrix24.
  *
  * @author    andrey-tech
- * @copyright 2019-2021 andrey-tech
+ * @copyright 2019-2022 andrey-tech
  * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.2.2
+ * @version 1.3.0
  *
  * v1.0.0 (14.10.2019) Начальная версия
  * v1.1.0 (15.11.2019) Добавлен метод getContactFields()
  * v1.2.0 (09.06.2020) Изменен метод getContact(), добавлен метод fetchContactList()
  * v1.2.1 (11.06.2020) Исправлен метод deleteContacts()
  * v1.2.2 (03.02.2021) Исправлено имя класса исключения в методах
+ * v1.3.0 (22.05.2022) Добавлен метод getContactsByPhone()
  */
 
 declare(strict_types=1);
@@ -68,6 +69,24 @@ trait Contact
         $result = $this->batchRequest($commands, true);
 
         return $this->createResultWith($result, 'CONTACT', $with);
+    }
+
+    /**
+     * Возвращает контакты по номеру телефона
+     *
+     * @param  int|string $phone Номер телефона
+     * @param  array $select Параметры выборки
+     * @return array
+     */
+    public function getContactsByPhone($phone, $select = [])
+    {
+        return $this->request(
+            'crm.contact.list',
+            [
+                'filter' => [ 'PHONE' =>  $phone ],
+                'select' => $select
+            ]
+        );
     }
 
     /**
