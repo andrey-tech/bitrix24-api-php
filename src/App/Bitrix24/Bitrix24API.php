@@ -4,11 +4,11 @@
  * Класс Bitrix24API. Выполняет запросы к REST API системы Битрикс24 с использованием механизма входящих вебхуков.
  *
  * @author    andrey-tech
- * @copyright 2019-2021 andrey-tech
+ * @copyright 2019-2024 andrey-tech
  * @see       https://github.com/andrey-tech/bitrix24-api-php
  * @license   MIT
  *
- * @version 1.6.0
+ * @version 1.6.1
  *
  * v1.0.0 (13.10.2019) Начальный релиз
  * v1.1.0 (31.10.2019) Добавлен метод getLastResponse()
@@ -25,6 +25,7 @@
  * v1.4.0 (03.02.2021) Добавлены свойства класса, задающие имена полей связанных сущностей
  * v1.5.0 (06.02.2021) Изменения для классов: HTTP 3.0 и DebugLogger 2.0; добавлен метод setLogger()
  * v1.6.0 (20.02.2021) Добавлены трейты Lead, ProductRow
+ * v1.6.1 (07.04.2024) Добавлен HTTP-заголовок "Connection: close"
  *
  */
 
@@ -161,7 +162,7 @@ class Bitrix24API
         }
 
         // POST запрос
-        $this->lastResponse = $this->http->request($url, 'POST', $params);
+        $this->lastResponse = $this->http->request($url, 'POST', $params, [ 'Connection: close' ]);
 
         // Логирование ответа
         if (isset($this->logger)) {
